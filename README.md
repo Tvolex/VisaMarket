@@ -6,12 +6,18 @@
 
 ``` bash
 # install dependencies
-npm install
+npm i
 
-# serve with hot reload at localhost:8080
+# Start server with nodemon at localhost:3000
 npm run dev
 
-# build for production with minification
+# Build frontend dev
+npm run build:watch
+
+# Start prod server
+npm run dev
+
+# Build frontend prod
 npm run build
 ```
 
