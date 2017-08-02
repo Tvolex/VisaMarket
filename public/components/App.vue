@@ -2,6 +2,8 @@
   <div id="app">
 
     <h1>{{ msg }}</h1>
+    <div class="text">Test Text</div>
+
 
   </div>
 </template>
