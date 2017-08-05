@@ -2,6 +2,7 @@
   <v-app>
       <background>
 
+<<<<<<< HEAD
       </background>
       <my-header></my-header>
       <main>
@@ -17,6 +18,11 @@
       </main>
       <v-footer></v-footer>
   </v-app>
+=======
+    <h1>{{ msg }}</h1>
+    <div class="text">Test Text</div>
+
+>>>>>>> 0946f2a0ed27503ea8b3c2ba3794eeb513e6ae6f
 
 </template>
 
