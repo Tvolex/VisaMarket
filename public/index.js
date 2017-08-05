@@ -9,9 +9,11 @@ import 'v-toaster/dist/v-toaster.css'
 
 // require components
 import Index from '../public/components/App.vue'
+import Authorization from './components/Authorization.vue'
 
 const routes = [
     { path: '/', component: Index},
+    { path: '/signin', component: Authorization}
 ];
 
 //Setup Vue
@@ -20,13 +22,13 @@ Vue.use(notify, {timeout: 5000});
 Vue.use(Vuetify);
 
 const router = new VueRouter({
-    routes: routes,
-    mode: 'history'
+    mode: 'history',
+    routes: routes
 });
 
 // Register components
 new Vue({
     el: '#app',
     router: router,
-    render: h => h(Index)
+    //render: h => h(Index)
 });

@@ -4,16 +4,20 @@ const session = require ('express-session');
 const cookieParser = require ('cookie-parser');
 const path = require ('path');
 const config = require('./config');
+const history = require('connect-history-api-fallback');
+const connect = require('connect');
 const app = express();
+
+
 
 app.use(cookieParser());
 app.use(bodyParser());
+//app.use(history(middleware));
 app.use(session({
     secret: ',Kvb6s<wh(yB#&m66sk4@a+SB9pSKm-', // TODO: change secret key
     resave: true,
     saveUninitialized: true
 }));
-
 
 // view engine setup
 app.set('views', path.join(__dirname, '../view'));
