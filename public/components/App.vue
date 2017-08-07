@@ -2,12 +2,19 @@
     <v-app dark standalone>
         <div id="toolbar">
             <my-header></my-header>
+
         </div>
+        <hr>
+        <main class="main-stepper application--dark">
+            <v-container dark >
+                <stepper></stepper>
+            </v-container>
+        </main>
         <main class="application application--dark">
             <v-container dark fluid>
                 <v-layout row wrap>
                     <v-flex xs12 sm6 md3 order-md4 order-sm2 v-for="item in items" tag="v-card" v-bind:key="item.id">
-                        <v-card dark class="primary">
+                        <v-card dark class="primary item-card">
                             <v-card-media
                                     class="white--text"
                                     height="200px"
@@ -45,6 +52,7 @@
 <script>
     import header from './header.vue';
     import footer from './footer.vue'
+    import stepper from './Stepper.vue'
     import resize from "vue-resize-directive"
     import VCardMedia from "vuetify/src/components/cards/VCardMedia";
     import icon from "vue-icon";
@@ -58,6 +66,8 @@
             VCardMedia,
             "my-header": header,
             "my-footer": footer,
+            "stepper": stepper,
+
         },
         data: () => {
             return {
@@ -93,6 +103,11 @@
         },
 
         methods: {
+
+            changeLocalization: function (l) {
+                this.$lang.setLang(l)
+            },
+
             updateSize: function () {
                 this.windowSize.width = window.innerWidth;
                 this.windowSize.height = window.innerHeight;
@@ -129,14 +144,16 @@
 </script>
 
 <style lang="scss">
-
+    .main-stepper {
+        margin-top: 8vh;
+    }
     .SelectCountry {
         width: 50%;
     }
     .toolbar {
         z-index: 2;
     }
-    .card {
+    .item-card {
         margin-top: 10px;
     }
     .card__media__background {

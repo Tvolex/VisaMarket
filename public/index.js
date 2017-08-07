@@ -5,6 +5,8 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import notify from 'v-toaster'
 import Vuetify from 'vuetify'
+import VueCookies from 'vue-cookies'
+
 import 'v-toaster/dist/v-toaster.css'
 
 // require components
@@ -16,10 +18,12 @@ const routes = [
     { path: '/signin', component: Authorization}
 ];
 
+
 //Setup Vue
 Vue.use(VueRouter);
 Vue.use(notify, {timeout: 5000});
 Vue.use(Vuetify);
+Vue.use(VueCookies);
 
 const router = new VueRouter({
     mode: 'history',

@@ -1,5 +1,5 @@
 <template>
-    <v-app dark style="max-height: 1px">
+    <div dark style="max-height: 1px">
         <v-navigation-drawer temporary v-model="sideNav">
             <v-list>
                 <v-list-tile  style="margin-left: -100px">
@@ -45,14 +45,24 @@
                     v-on:click="sideNav = !sideNav"
                     class="hidden-sm-and-up "></v-toolbar-side-icon>
             <v-spacer></v-spacer>
-            <v-toolbar-items class="hidden-sm-and-down">
-                <v-btn class="white--text" flat>Choose country</v-btn>
+            <v-toolbar-items dark class="hidden-sm-and-down text-xs-center">
+
+                <v-flex xs6 class="selectLanguage">
+                    <v-select
+                            v-bind:items="langs"
+                            v-model="lang"
+                            label="Choose language"
+                            dark
+                            item-value="text"
+                    ></v-select>
+                </v-flex>
+
                 <v-btn class="white--text" flat>Choose visa type</v-btn>
                 <router-link tag="v-btn" class="btn btn--flat white--text" v-bind:to="path">{{PathName}}</router-link>
 
             </v-toolbar-items>
         </v-toolbar>
-    </v-app>
+    </div>
 
 </template>
 <script>
@@ -62,6 +72,13 @@
 
         data() {
             return {
+                lang: this.getLang() || 'eng',
+                langs: [
+                    'English',
+                    'Українська',
+                    'Czeska',
+                    'Polska',
+                ],
                 sideNav: false,
                 title: 'Visa Market',
                 path: '/',
@@ -84,16 +101,39 @@
         methods: {
             SignIn: function () {
                 event.preventDefault();
-            }
+            },
+
+            getLang: function () {
+                return this.$cookies.get('language');
+
+            },
+
+            setLang: function (l) {
+                let langs = ['eng', 'ua', 'pl', 'cz'];
+                this.lang = this.$cookies.set('language', l || langs[0]);
+            },
         },
 
         filters: {
 
         },
+
+        watch: {
+            leng: function (val) {
+                this.setLang(val);
+                this.lang = this.getLang();
+            }
+        }
     }
 </script>
 
 <style>
+    .selectLanguage {
+        width: 160px;
+    }
+    .card-drop-down {
+        margin-top: 0px;
+    }
     .application, .application>main>.container {
         height: 10vh;
     }
