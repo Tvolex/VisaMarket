@@ -8,13 +8,19 @@
         <main class="main-stepper application--dark">
             <v-container dark >
                 <stepper></stepper>
+
             </v-container>
+
+            <v-btn class="button-arrow_down" @click.native="handleScroll">
+                <v-icon >arrow_downward</v-icon>
+            </v-btn>
+
         </main>
         <main class="application application--dark">
             <v-container dark fluid>
                 <v-layout row wrap>
                     <v-flex xs12 sm6 md3 order-md4 order-sm2 v-for="item in items" tag="v-card" v-bind:key="item.id">
-                        <v-card dark class="primary item-card">
+                        <v-card dark class=" item-card">
                             <v-card-media
                                     class="white--text"
                                     height="200px"
@@ -23,7 +29,7 @@
                                 <v-container fill-height fluid>
                                     <v-layout fill-height>
                                         <v-flex xs12 align-end flexbox>
-                                            <span class="headline">{{item.title}}</span>
+                                            <span class="headline span-item-title">{{item.title}}</span>
                                         </v-flex>
                                     </v-layout>
                                 </v-container>
@@ -104,9 +110,7 @@
 
         methods: {
 
-            changeLocalization: function (l) {
-                this.$lang.setLang(l)
-            },
+
 
             updateSize: function () {
                 this.windowSize.width = window.innerWidth;
@@ -126,8 +130,10 @@
                     case  "NewYork" :
                         return images[1] + imgOptions;
                 }
-
-
+            },
+            toDown: function () {
+                let container = this.$el.querySelector("#section2");
+                container.scrollTo = container.scrollHeight;
             }
         },
 
@@ -144,6 +150,12 @@
 </script>
 
 <style lang="scss">
+    .button-arrow_down{
+        margin-top: -30%;
+    }
+    .span-item-title {
+        padding-left: 10px;
+    }
     .main-stepper {
         margin-top: 8vh;
     }

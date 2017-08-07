@@ -6,7 +6,6 @@ import VueRouter from 'vue-router'
 import notify from 'v-toaster'
 import Vuetify from 'vuetify'
 import VueCookies from 'vue-cookies'
-
 import 'v-toaster/dist/v-toaster.css'
 
 // require components
