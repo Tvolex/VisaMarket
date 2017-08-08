@@ -6,6 +6,7 @@ const path = require ('path');
 const config = require('./config');
 const history = require('connect-history-api-fallback');
 const connect = require('connect');
+const getCountriesByVisaType = require('./routers/getCountriesByVisaType');
 const app = express();
 
 
@@ -29,6 +30,8 @@ app.use(express.static(path.join(__dirname, '../public')));
 app.get('/', (req, res) => {
     res.render('index');
 });
+
+app.use('/getCountriesByVisaType', getCountriesByVisaType);
 
 // Error handler
 app.use((req, res, next) => {

@@ -5,7 +5,7 @@
                 <v-list-tile >
                     <v-icon>home</v-icon>
                     <v-list-tile-content class="text-lg-left">
-                        Visa Market
+                        <router-link tag="v-btn" class="btn btn--flat white--text" to="/">{{title}}</router-link>
                     </v-list-tile-content>
                 </v-list-tile>
                 <hr>
@@ -40,12 +40,14 @@
             </v-list>
         </v-navigation-drawer>
         <v-toolbar style="background-color: rgba(0,0,0,0.6)" class="white--text">
-            <v-toolbar-title>{{title}}</v-toolbar-title>
+            <router-link tag="v-btn" class="btn btn--flat white--text" to="/">{{title}}</router-link>
             <v-toolbar-side-icon
                     v-on:click="sideNav = !sideNav"
-                    class="hidden-sm-and-up "></v-toolbar-side-icon>
+                    class="hidden-sm-and-up ">
+
+            </v-toolbar-side-icon>
             <v-spacer></v-spacer>
-            <v-toolbar-items dark class="hidden-sm-and-down text-xs-center">
+            <v-toolbar-items dark class="hidden-xs-only">
 
                 <v-flex xs6 class="selectLanguage">
                     <v-select
@@ -58,7 +60,7 @@
                     ></v-select>
                 </v-flex>
 
-                <v-btn class="white--text" flat></v-btn>
+                <v-btn class="white--text" flat>Button</v-btn>
                 <router-link tag="v-btn" class="btn btn--flat white--text" v-bind:to="path">{{PathName}}</router-link>
 
             </v-toolbar-items>
@@ -99,11 +101,19 @@
 
         methods: {
             SignIn: function () {
-                event.preventDefault();
+                addEventListener(document, "touchstart", function(e) {
+                    console.log(e.defaultPrevented);  // will be false
+                    e.preventDefault();   // does nothing since the listener is passive
+                    console.log(e.defaultPrevented);  // still false
+                },);
             },
             reload: function() {
-                event.preventDefault();
-                this.$router.go(this.$router.currentRoute)
+                addEventListener(document, "touchstart", function(e) {
+                    console.log(e.defaultPrevented);  // will be false
+                    e.preventDefault();   // does nothing since the listener is passive
+                    console.log(e.defaultPrevented);  // still false
+                },);
+                this.$router.go(this.$router.currentRoute);
             }
 
         },
