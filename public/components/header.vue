@@ -49,7 +49,7 @@
             <v-spacer></v-spacer>
             <v-toolbar-items dark class="hidden-xs-only">
 
-                <v-flex xs6 class="selectLanguage">
+                <v-flex v-if="path==='/signin'" xs6 class="selectLanguage">
                     <v-select
                             v-bind:items="langs"
                             v-model="lang"
@@ -60,8 +60,8 @@
                     ></v-select>
                 </v-flex>
 
-                <v-btn class="white--text" flat>Button</v-btn>
-                <router-link tag="v-btn" class="btn btn--flat white--text" v-bind:to="path">{{PathName}}</router-link>
+                <router-link tag="v-btn" class="btn btn--flat white--text" v-bind:to="path"  >{{PathName}}</router-link>
+                <v-btn class="white--text" flat v-if="currentPath === '/dashboard'" @click.native="exit">Exit</v-btn>
 
             </v-toolbar-items>
         </v-toolbar>
@@ -70,6 +70,7 @@
 </template>
 <script>
     import 'vuetify/dist/vuetify.min.css'
+    import axios from 'axios';
     export default {
         name: 'app',
 
@@ -82,6 +83,7 @@
                 ],
                 sideNav: false,
                 title: 'Visa Market',
+                currentPath: window.location.pathname ,
                 path: '/',
                 PathName: '/',
             }
@@ -89,17 +91,24 @@
 
         mounted: function () {
             console.log("now: " + window.location.pathname);
-
-            if ( window.location.pathname === "/signin" ) {
-                this.path = '/';
-                this.PathName = "Home";
-            } else if ( window.location.pathname === '/' ) {
+            if ( window.location.pathname === '/' ) {
                 this.path = "/signin";
                 this.PathName = "Sign In";
+            } else {
+                this.path = '/';
+                this.PathName = "Home";
             }
         },
 
         methods: {
+
+            exit: async function () {
+                const exit = await axios.post('/exit');
+
+                if (exit.data)
+                    this.$router.push('/');
+            },
+
             SignIn: function () {
                 addEventListener(document, "touchstart", function(e) {
                     console.log(e.defaultPrevented);  // will be false
@@ -127,7 +136,9 @@
                 console.log(val);
                 this.$cookies.set('Language', val);
                 this.$router.go(this.$router.currentRoute)
-            }
+            },
+
+
         }
     }
 </script>

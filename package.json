@@ -5,7 +5,7 @@
   "author": "Tvolex <tisyanchin13@gmail.com>",
   "private": true,
   "scripts": {
-    "dev": "cross-env NODE_ENV=development nodemon --watch src src/app.js ",
+    "dev": "cross-env NODE_ENV=development nodemon --inspect --watch src src/app.js  ",
     "staging": "cross-env NODE_ENV=staging node src/app.js ",
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules",
     "start": "node src/app.js",
@@ -26,7 +26,6 @@
     "http": "0.0.0",
     "middleware": "^1.0.0",
     "mongodb": "^2.1.21",
-    "objectid": "^3.2.1",
     "path": "^0.12.7",
     "v-toaster": "^1.0.2",
     "vue": "^2.3.4",
@@ -40,7 +39,9 @@
     "vue-gettext": "~2.0.22",
     "vue-fullpage": "~2.0.3",
     "vue-scroll": "~2.0.3",
-    "animate.css": "~3.5.2"
+    "animate.css": "~3.5.2",
+    "md5": "~2.2.1",
+    "objectid": "~3.2.1"
   },
   "devDependencies": {
     "babel-core": "^6.0.0",

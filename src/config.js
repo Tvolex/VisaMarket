@@ -2,7 +2,7 @@ const config = {};
 
 
 if (process.env.NODE_ENV === 'development') {
-    config.port = process.env.PORT || 3000;;
+    config.port = process.env.PORT || 3000;
     config.DBurl = 'mongodb://127.0.0.1:27017/Visa-Market'; // TODO: Add URL MongoDB
 }
 else if(process.env.NODE_ENV === 'staging') {

@@ -6,16 +6,17 @@ import VueRouter from 'vue-router'
 import notify from 'v-toaster'
 import Vuetify from 'vuetify'
 import VueCookies from 'vue-cookies'
-import VueFullPage from 'vue-fullpage'
 import 'v-toaster/dist/v-toaster.css'
 
 // require components
 import Index from '../public/components/App.vue'
 import Authorization from './components/Authorization.vue'
+import Dashboard from './components/Dashboard.vue'
 
 const routes = [
     { path: '/', component: Index},
-    { path: '/signin', component: Authorization}
+    { path: '/signin', component: Authorization},
+    { path: '/dashboard', component: Dashboard},
 ];
 
 
@@ -24,7 +25,6 @@ Vue.use(VueRouter);
 Vue.use(notify, {timeout: 5000});
 Vue.use(Vuetify);
 Vue.use(VueCookies);
-Vue.use(VueFullPage);
 
 const router = new VueRouter({
     mode: 'history',

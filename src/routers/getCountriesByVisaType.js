@@ -2,6 +2,7 @@ const config = require ('../config');
 const mongodb = require ('mongodb');
 const express = require ('express');
 const ObjectId = require ('objectid');
+const http = require('http');
 const DataBaseURL = config.DBurl;
 const router = express.Router();
 const MongoClient = mongodb.MongoClient;
@@ -14,7 +15,7 @@ const getCountriesByVisaType = router.get('/', async (req, res) => {
     try {
         const db = await MongoClient.connect(DataBaseURL);
 
-        console.log("getCountriesByVisaType.js: Connect to Data Base: ", DataBaseURL);
+        console.dir("getCountriesByVisaType.js: Connect to Data Base: "+ DataBaseURL);
 
         const collection = db.collection('Countries');
 
