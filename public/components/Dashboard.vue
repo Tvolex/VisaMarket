@@ -1,6 +1,8 @@
 <template>
     <v-app>
         <my-header></my-header>
+
+
         <main class="dashboard">
             <v-container fluid>
                 <v-layout row wrap>
@@ -56,6 +58,21 @@
             return {
                 search: '',
                 selected: [],
+                sideNav: this.drawer,
+                items: [
+                    { icon: 'trending_up', text: 'Most Popular' },
+                    { icon: 'subscriptions', text: 'Subscriptions' },
+                    { icon: 'history', text: 'History' },
+                    { icon: 'featured_play_list', text: 'Playlists' },
+                    { icon: 'watch_later', text: 'Watch Later' }
+                ],
+                items2: [
+                    { picture: 28, text: 'Joseph' },
+                    { picture: 38, text: 'Apple' },
+                    { picture: 48, text: 'Xbox Ahoy' },
+                    { picture: 58, text: 'Nokia' },
+                    { picture: 78, text: 'MKBHD' },
+                ],
                 headers: [
                     {
                         text: 'Dessert (100g serving)',
@@ -186,9 +203,21 @@
             }
         },
 
+        computed: {
+            login() {
+                return  this.$store.getters.login;
+            }
+        },
+
         methods: {
 
+            exit: function () {
+                this.$router.push('/');
+            },
 
+            setDrawer: function (value) {
+                this.$store.commit('drawer', {type: 'drawer', value: value});
+            },
 
             notificator: function (type, message) {
                 switch (type) {
@@ -212,7 +241,20 @@
 
                 console.log(error);
             },
+        },
+
+        watch: {
+            login(login) {
+                if(!login)
+                    this.exit();
+            },
+
+            sideNav(drawer) {
+                this.setDrawer(drawer);
+            }
         }
+
+
     }
 </script>
 

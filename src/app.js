@@ -4,9 +4,9 @@ const session = require ('express-session');
 const cookieParser = require ('cookie-parser');
 const path = require ('path');
 const config = require('./config');
-const login = require('./routers/login');
+const Authorization = require('./routers/Authorization');
 const exit = require ('./routers/exit');
-const checkLogin = require ('./routers/checkLogin');
+const login = require ('./routers/login');
 const history = require('connect-history-api-fallback');
 const connect = require('connect');
 const getCountriesByVisaType = require('./routers/getCountriesByVisaType');
@@ -35,8 +35,8 @@ app.get('/', (req, res) => {
 });
 
 app.use('/exit', exit);
+app.use('/Authorization', Authorization);
 app.use('/login', login);
-app.use('/checkLogin', checkLogin);
 app.use('/getCountriesByVisaType', getCountriesByVisaType);
 
 // Error handler

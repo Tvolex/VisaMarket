@@ -5,7 +5,7 @@
                 <v-list-tile >
                     <v-icon>home</v-icon>
                     <v-list-tile-content class="text-lg-left">
-                        <router-link tag="v-btn" class="btn btn--flat white--text" to="/">{{title}}</router-link>
+                        <router-link tag="v-btn" class="btn btn--flat" to="/">{{title}}</router-link>
                     </v-list-tile-content>
                 </v-list-tile>
                 <hr>
@@ -35,11 +35,13 @@
                         {{PathName}}
                     </v-list-tile-content>
                 </router-link>
-
-
             </v-list>
+
+            <sideNavDashboard v-if="currentPath === '/dashboard'"></sideNavDashboard>
+
         </v-navigation-drawer>
         <v-toolbar style="background-color: rgba(0,0,0,0.6)" class="white--text">
+            <v-toolbar-side-icon @click.stop="sideNav = !sideNav"></v-toolbar-side-icon>
             <router-link tag="v-btn" class="btn btn--flat white--text" to="/">{{title}}</router-link>
             <v-toolbar-side-icon
                     v-on:click="sideNav = !sideNav"
@@ -61,7 +63,7 @@
                 </v-flex>
 
                 <router-link tag="v-btn" class="btn btn--flat white--text" v-bind:to="path"  >{{PathName}}</router-link>
-                <v-btn class="white--text" flat v-if="currentPath === '/dashboard'" @click.native="exit">Exit</v-btn>
+                <v-btn class="white--text" flat v-if="login" @click.native="exit">Exit</v-btn>
 
             </v-toolbar-items>
         </v-toolbar>
@@ -70,10 +72,13 @@
 </template>
 <script>
     import 'vuetify/dist/vuetify.min.css'
+    import sideNavDashboard from './SideNavDashboard.vue'
     import axios from 'axios';
     export default {
         name: 'app',
-
+        components: {
+            "sideNavDashboard": sideNavDashboard,
+        },
         data() {
             return {
                 lang: this.$cookies.get('Language') || "English",
@@ -81,11 +86,21 @@
                     "English",
                     "Українська",
                 ],
-                sideNav: false,
+                sideNav: this.drawer,
                 title: 'Visa Market',
                 currentPath: window.location.pathname ,
                 path: '/',
                 PathName: '/',
+            }
+        },
+
+        computed: {
+            drawer() {
+                return this.$store.getters.sideNav;
+            },
+
+            login() {
+                return this.$store.getters.login;
             }
         },
 
@@ -102,11 +117,20 @@
 
         methods: {
 
-            exit: async function () {
-                const exit = await axios.post('/exit');
+            setDrawer: function (value) {
+                this.$store.commit('drawer', {type: 'drawer', value: value});
+            },
 
-                if (exit.data)
-                    this.$router.push('/');
+            exit: async function () {
+                const res = await axios.post('/exit');
+
+                const exit = !res.data;
+
+                this.setLogin(exit);
+            },
+
+            setLogin: function (value) {
+                this.$store.commit('login', {type: 'login', value: value});
             },
 
             SignIn: function () {
@@ -137,6 +161,10 @@
                 this.$cookies.set('Language', val);
                 this.$router.go(this.$router.currentRoute)
             },
+
+            sideNav: function (drawer) {
+                this.setDrawer(drawer);
+            }
 
 
         }

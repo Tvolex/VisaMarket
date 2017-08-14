@@ -6,6 +6,7 @@ import VueRouter from 'vue-router'
 import notify from 'v-toaster'
 import Vuetify from 'vuetify'
 import VueCookies from 'vue-cookies'
+import { store } from './store/index'
 import 'v-toaster/dist/v-toaster.css'
 
 // require components
@@ -35,6 +36,7 @@ const router = new VueRouter({
 new Vue({
     el: '#app',
     router: router,
+    store: store,
     //render: h => h(Index)
 
 

@@ -24,7 +24,7 @@
                                                             label="Email"
                                                             v-model="email"
                                                             type="email"
-                                                            v-bind:rules="emailrules"
+                                                            v-bind:error="errorField"
                                                             required>
                                                     </v-text-field>
                                                 </v-flex>
@@ -36,6 +36,7 @@
                                                             label="Password"
                                                             v-model="password"
                                                             type="password"
+                                                            v-bind:error="errorField"
                                                             v-bind:rules="rules"
                                                             required>
                                                     </v-text-field>
@@ -70,7 +71,6 @@
     import header from './header.vue'
     import axios from 'axios';
 
-
     export default {
         components: {
             "my-header": header,
@@ -82,41 +82,44 @@
                 msg: "Authorization on Visa Market",
                 email: null,
                 password: null,
-                login: false,
                 path: '/',
+                errorField: false,
                 errors: [],
                 rules: [],
-                emailrules: [],
             }
         },
 
         mounted: function () {
-            this.checkLogin();
+            //this.checkLogin();
+        },
+
+        computed: {
+            login() {
+                let login = this.$store.getters.login;
+
+                if (login )
+                    this.$router.push('/dashboard');
+                return login;
+            }
         },
 
         methods: {
-
-            checkLogin: async function() {
-                let login = await axios.post('/checkLogin');
-
-                if(!login.data)
-                    this.$toaster.error("asdasdasd");
-                else if ( login.data )
-                    this.$router.push('/dashboard');
-
-            },
 
             SignIn: async function () {
                 let data = {email: this.email, password: this.password};
 
                 try {
-                    let signin = await axios.post('/login', data);
+                    let signin = await axios.post('/Authorization', data);
 
-                    this.login  = signin.data;
+                    this.setLogin(signin.data);
 
                 } catch(e) {
                     this.errorHandler(e);
                 }
+            },
+
+            setLogin: function (value) {
+                this.$store.commit('login', {type: 'login', value: value});
             },
 
             notificator: function (type, message) {
@@ -137,11 +140,17 @@
                 let errorNotification = error.response.status + ' : ' + error.response.statusText;
 
                 if (error.response.status === 401) {
-                    this.rules.push("Username or Password is incorrect.");
-                    this.emailrules.push(" ");
+                    this.rules.length === 0 ?
+                        this.rules.push("Username or Password is incorrect.") :
+                        this.rules[0] = "Username or Password is incorrect.";
+
+                    this.errorField = true;
                 }
 
-                this.errors.push(error);
+                this.errors.length === 0 ?
+                    this.errors.push(error) :
+                    this.errors[0] = error;
+
                 this.notificator('error', errorNotification);
 
                 console.log(error);
