@@ -8,6 +8,9 @@ export const store = new Vuex.Store({
     state: {
         login: false,
         drawer: false,
+        items: [],
+        page: 0,
+
     },
 
     getters: {
@@ -17,7 +20,17 @@ export const store = new Vuex.Store({
 
         drawer(state) {
             return state.drawer;
+        },
+
+        items(state) {
+            return state.items;
+        },
+
+        page(state) {
+            return state.page;
         }
+
+
     },
 
     mutations: {
@@ -27,16 +40,29 @@ export const store = new Vuex.Store({
 
         drawer(state, {type, value}) {
             state[type] = value;
+        },
+
+        items(state, {type, value}) {
+            state[type] = value;
+        },
+
+        page(state, {type, value}) {
+            state[type] = value;
         }
+
     },
 
     actions: {
-        someFunction( {state, dispatch, commit}, query ){
-            ///
+        async getItems( {state, commit}){
+            const res = await axios.get('/getItems');
+
+            const items = res.data;
+
+            commit('items', {type: 'items', value: items});
         },
 
         async checkLogin ({state, commit}) {
-            let res = await axios.post('/login');
+            const res = await axios.post('/login');
 
             const login = res.data;
 

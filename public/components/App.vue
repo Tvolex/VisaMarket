@@ -11,12 +11,12 @@
 
             </v-container>
 
-            <v-btn class="button-arrow_down" @click.native="handleScroll">
-                <v-icon v-on:click.native.stop="toDown">arrow_downward</v-icon>
+            <v-btn class="button-arrow_down" >
+                <v-icon v-on:click.stop="toDown">arrow_downward</v-icon>
             </v-btn>
 
         </main>
-        <main class="application application--dark">
+        <main class="application application--dark cards">
             <v-container dark fluid>
                 <v-layout row wrap>
                     <v-flex xs12 sm6 md3 order-md4 order-sm2 v-for="item in items" tag="v-card" v-bind:key="item.id">
@@ -92,6 +92,7 @@
                 images: {
                     Paris: `https://images.unsplash.com/photo-1501977953290-80b1e3c3d316`,
                 },
+                offsetTop: 0,
                 windowSize: {
                     width: window.innerWidth ,
                     height: window.innerHeight + 100,
@@ -134,7 +135,7 @@
                 }
             },
             toDown: function () {
-                let container = this.$el.querySelector("#section2");
+                this.offsetTop = window.pageYOffset;
             }
         },
 

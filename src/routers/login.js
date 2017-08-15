@@ -15,7 +15,7 @@ const login = router.post('/', async (req, res) => {
 
         const collection = db.collection('admins');
 
-        console.log("heckLogin.js: connection to: " + DataBaseURL);
+        console.log("login.js: connection to: " + DataBaseURL);
 
         const admin = await collection.find({email: email, sessionID: sessionID}).limit(1).hasNext();
 

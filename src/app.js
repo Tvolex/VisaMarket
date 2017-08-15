@@ -9,6 +9,7 @@ const exit = require ('./routers/exit');
 const login = require ('./routers/login');
 const history = require('connect-history-api-fallback');
 const connect = require('connect');
+const getItems = require ('./routers/getItems');
 const getCountriesByVisaType = require('./routers/getCountriesByVisaType');
 const app = express();
 
@@ -27,17 +28,18 @@ app.use(session({
 app.set('views', path.join(__dirname, '../view'));
 app.set('view engine', 'html');
 app.engine('html', require('hbs').__express);
-//noinspection JSUnresolvedVariable
 app.use(express.static(path.join(__dirname, '../public')));
 
 app.get('/', (req, res) => {
     res.render('index');
 });
 
-app.use('/exit', exit);
 app.use('/Authorization', Authorization);
 app.use('/login', login);
+app.use('/exit', exit);
+
 app.use('/getCountriesByVisaType', getCountriesByVisaType);
+app.use('/getItems', getItems);
 
 // Error handler
 app.use((req, res, next) => {

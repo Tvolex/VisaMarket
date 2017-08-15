@@ -20,7 +20,7 @@ const Authorization = router.post('/', async (req, res) => {
 
         const collection = db.collection('admins');
 
-        console.log("checkLogin.js: connection to: " + DataBaseURL);
+        console.log("Authorization.js: connection to: " + DataBaseURL);
 
         const admin = await collection.findOneAndUpdate(
             {
@@ -37,7 +37,7 @@ const Authorization = router.post('/', async (req, res) => {
         if (admin.lastErrorObject.updatedExisting) {
             req.session.user_email = await admin.value.email;
 
-            console.log(req.session.userID);
+            console.log(req.sessionID);
 
             res.status(200)
                 .send(true)

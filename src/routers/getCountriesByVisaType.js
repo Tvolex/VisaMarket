@@ -11,11 +11,13 @@ const MongoClient = mongodb.MongoClient;
 const getCountriesByVisaType = router.get('/', async (req, res) => {
 
     const reqVisaTypeId = req.query.visaTypeId;
+
     console.log("visaType: " + reqVisaTypeId);
+
     try {
         const db = await MongoClient.connect(DataBaseURL);
 
-        console.dir("getCountriesByVisaType.js: Connect to Data Base: "+ DataBaseURL);
+        console.log("getCountriesByVisaType.js: Connect to Data Base: " + DataBaseURL);
 
         const collection = db.collection('Countries');
 
