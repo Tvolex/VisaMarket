@@ -1,13 +1,13 @@
 <template>
     <v-container fluid>
         <v-layout row>
-            <v-flex xs12 sm6 offset-sm3>
+            <v-flex xs12 sm6 offset-sm3 class="new-item">
                 <v-card>
                     <v-card-text>
-                        <v-container>
+                        <v-container  >
 
                             <transition appear tag="div" name="transWelcome" mode="out-in">
-                                <form v-if="" transition="scale-transition" key="form" >
+                                <form  transition="scale-transition" key="form" >
                                     <v-layout>
                                         <v-flex xs12>
                                             <h4>Publish new item card</h4>
@@ -97,6 +97,7 @@
 </template>
 
 <script>
+    import {notificator} from '../notificator'
     import axios from 'axios'
 
     export default {
@@ -117,7 +118,7 @@
         },
 
         methods: {
-            PublishCard: function () {
+            PublishCard: async function () {
                 const data = {
                     country: this.Country,
                     city: this.City,
@@ -127,9 +128,15 @@
                     image: this.Image
                 };
 
-                const res = axios.post('/publish', data);
+                const res = await axios.post('/publish', data);
 
-                const updated = res.data;
+                const saved = res.data.ok;
+
+                if (saved === 1)
+                    this.$toaster.success("Saved");
+                else if (saved === 0)
+                    this.$toaster.error("This country is already exist");
+
             }
         },
     }

@@ -1,5 +1,5 @@
 
-export const notificator = function (type, message) {
+export const notificator = new function (type, message) {
     switch (type) {
         case 'info': this.$toaster.info(message);
             break;

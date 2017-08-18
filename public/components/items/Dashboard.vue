@@ -91,7 +91,7 @@
 </script>
 
 <style>
-    main, .edit-item, .new-item, .new-manager {
+     .edit-cards, .new-item, .new-manager {
         margin-top: 10vh;
     }
 

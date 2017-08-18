@@ -9,12 +9,12 @@ const MongoClient = mongodb.MongoClient;
 const publish = router.post('/', async (req, res) => {
 
     const item = {
-        country: req.body.country,
         city : req.body.city,
-        visaTypeId : req.body.visaTypeId,
         price : req.body.price,
-        description : req.body.description,
         image : req.body.image,
+        country: req.body.country,
+        visaTypeId : req.body.visaTypeId,
+        description : req.body.description,
     };
 
     try {
@@ -24,16 +24,23 @@ const publish = router.post('/', async (req, res) => {
 
         const collection = db.collection('items');
 
-        let res = await collection.insertOne(item);
+        const inserted = await collection.save(item);
 
-        console.log(res.toString());
+        console.log(inserted.WriteResult);
 
         db.close();
 
         res.status(200)
-            .send(res);
+            .send(inserted.result)
 
     } catch (e) {
+
+        if (e.code === 11000) {
+            res.status(400)
+                .json({n: 0, ok: 0});
+            return 0;
+        }
+
         console.log(e);
         res.status(500)
             .send(e);

@@ -1,6 +1,6 @@
 <template>
     <v-app>
-
+        <menu class="new-manager"></menu>
     </v-app>
 </template>
 
