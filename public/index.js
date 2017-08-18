@@ -11,8 +11,8 @@ import 'v-toaster/dist/v-toaster.css'
 
 // require components
 import Index from '../public/components/App.vue'
-import Authorization from './components/Authorization.vue'
-import Dashboard from './components/Dashboard.vue'
+import Authorization from './components/admin/Authorization.vue'
+import Dashboard from './components/items/Dashboard.vue'
 
 const routes = [
     { path: '/', component: Index},

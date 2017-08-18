@@ -10,6 +10,7 @@ export const store = new Vuex.Store({
         drawer: false,
         items: [],
         page: 0,
+        countries: [],
 
     },
 
@@ -28,7 +29,7 @@ export const store = new Vuex.Store({
 
         page(state) {
             return state.page;
-        }
+        },
 
 
     },
@@ -48,27 +49,26 @@ export const store = new Vuex.Store({
 
         page(state, {type, value}) {
             state[type] = value;
-        }
+        },
+
 
     },
 
     actions: {
-        async getItems( {state, commit}){
+        async login ({state, commit, dispatch}) {
+            const res = await axios.post('/login');
+
+            const login = res.data;
+
+            commit('login', {type: 'login', value: login});
+        },
+
+        async items( {state, commit}){
             const res = await axios.get('/getItems');
 
             const items = res.data;
 
             commit('items', {type: 'items', value: items});
-        },
-
-        async checkLogin ({state, commit}) {
-            const res = await axios.post('/login');
-
-            const login = res.data;
-
-            login ? this.$toaster.info("Welcome") : this.$toaster.info("Not authorized");
-
-            commit('login', {type: 'login', value: login});
         },
     },
 

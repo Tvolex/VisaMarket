@@ -29,7 +29,7 @@
                                 <v-container fill-height fluid>
                                     <v-layout fill-height>
                                         <v-flex xs12 align-end flexbox>
-                                            <span class="headline span-item-title">{{item.title}}</span>
+                                            <span class="headline span-item-title">{{item.country}}</span>
                                         </v-flex>
                                     </v-layout>
                                 </v-container>
@@ -37,7 +37,7 @@
                             <v-card-title>
                                 <div>
                                     <span class="grey--text">${{item.price}}</span><br>
-                                    <span>{{item.description}}</span><br>
+                                    <span>{{item.place}}</span><br>
                                 </div>
                             </v-card-title>
                             <v-card-actions>
@@ -79,16 +79,16 @@
         },
         data: () => {
             return {
-                items: [
-                    {title: "Dubai", description: "OAE, Dubai", price: 8500 ,image: "https://images.unsplash.com/photo-1461664054097-e319867377a0?dpr=1&auto=format&fit=crop&w=720&h=640&q=80&cs=tinysrgb&crop="},
-                    {title: "Paris", description: "France, Paris", price: 6350 ,image: "https://images.unsplash.com/photo-1501977953290-80b1e3c3d316"},
-                    {title: "New York", description: "USA, New York", price: 5500 ,image: "https://images.unsplash.com/photo-1492666673288-3c4b4576ad9a?dpr=1&auto=format&fit=crop&w=720&h=640&q=80&cs=tinysrgb&crop="},
-                    {title: "Las Setas De Sevilla", description: "Spain, Sevilla", price: 5500 ,image: "https://images.unsplash.com/photo-1482236195433-7e0de3abde07?dpr=1&auto=format&fit=crop&w=720&h=640&q=80&cs=tinysrgb&crop="},
-                    {title: "Metropolitan City of Rome ", description: "Italy, Rome", price: 4590 ,image: "https://images.unsplash.com/photo-1483967401479-d276121525b1?dpr=1&auto=format&fit=crop&w=720&h=640&q=80&cs=tinysrgb&crop="},
-                    {title: "Barcelona", description: "Spain, Barcelona", price: 5940 ,image: "https://images.unsplash.com/photo-1477039256673-13f6fc80dde7?dpr=1&auto=format&fit=crop&w=720&h=640&q=80&cs=tinysrgb&crop="},
-                    {title: "Venice", description: "Italy, Venice", price: 4960 ,image: "https://images.unsplash.com/photo-1480550476554-00112fe313c3?dpr=1&auto=format&fit=crop&w=720&h=640&q=80&cs=tinysrgb&crop="},
-                    {title: "Capri", description: "Italy, Capri", price: 7460 ,image: "https://images.unsplash.com/photo-1447723432521-2fabf0a7d064?dpr=1&auto=format&fit=crop&w=720&h=640&q=80&cs=tinysrgb&crop="},
-                ],
+//                items: [
+//                    {title: "Dubai", description: "OAE, Dubai", price: 8500 ,image: "https://images.unsplash.com/photo-1461664054097-e319867377a0?dpr=1&auto=format&fit=crop&w=720&h=640&q=80&cs=tinysrgb&crop="},
+//                    {title: "Paris", description: "France, Paris", price: 6350 ,image: "https://images.unsplash.com/photo-1492016025243-5c580de436d8?dpr=1&auto=format&fit=crop&w=720&h=640&q=80&cs=tinysrgb&crop="},
+//                    {title: "New York", description: "USA, New York", price: 5500 ,image: "https://images.unsplash.com/photo-1492666673288-3c4b4576ad9a?dpr=1&auto=format&fit=crop&w=720&h=640&q=80&cs=tinysrgb&crop="},
+//                    {title: "Las Setas De Sevilla", description: "Spain, Sevilla", price: 5500 ,image: "https://images.unsplash.com/photo-1482236195433-7e0de3abde07?dpr=1&auto=format&fit=crop&w=720&h=640&q=80&cs=tinysrgb&crop="},
+//                    {title: "Metropolitan City of Rome ", description: "Italy, Rome", price: 4590 ,image: "https://images.unsplash.com/photo-1483967401479-d276121525b1?dpr=1&auto=format&fit=crop&w=720&h=640&q=80&cs=tinysrgb&crop="},
+//                    {title: "Barcelona", description: "Spain, Barcelona", price: 5940 ,image: "https://images.unsplash.com/photo-1477039256673-13f6fc80dde7?dpr=1&auto=format&fit=crop&w=720&h=640&q=80&cs=tinysrgb&crop="},
+//                    {title: "Venice", description: "Italy, Venice", price: 4960 ,image: "https://images.unsplash.com/photo-1480550476554-00112fe313c3?dpr=1&auto=format&fit=crop&w=720&h=640&q=80&cs=tinysrgb&crop="},
+//                    {title: "Capri", description: "Italy, Capri", price: 7460 ,image: "https://images.unsplash.com/photo-1447723432521-2fabf0a7d064?dpr=1&auto=format&fit=crop&w=720&h=640&q=80&cs=tinysrgb&crop="},
+//                ],
                 images: {
                     Paris: `https://images.unsplash.com/photo-1501977953290-80b1e3c3d316`,
                 },
@@ -102,18 +102,17 @@
             }
         },
 
-        events: {
-
+        computed: {
+            items() {
+                return this.$store.getters.items;
+            }
         },
 
         mounted: function () {
-            //this.$toaster.info(this.msg);
-            console.log()
+            this.$store.dispatch('items');
         },
 
         methods: {
-
-
 
             updateSize: function () {
                 this.windowSize.width = window.innerWidth;

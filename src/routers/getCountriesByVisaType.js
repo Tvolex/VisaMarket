@@ -19,9 +19,11 @@ const getCountriesByVisaType = router.get('/', async (req, res) => {
 
         console.log("getCountriesByVisaType.js: Connect to Data Base: " + DataBaseURL);
 
-        const collection = db.collection('Countries');
+        const collection = db.collection('items');
 
         let items = await collection.find({visaTypeId: reqVisaTypeId}).sort({$natural: -1}).toArray();
+
+        console.log(items);
 
         db.close();
 
@@ -33,8 +35,6 @@ const getCountriesByVisaType = router.get('/', async (req, res) => {
         res.status(500)
             .send(e);
     }
-
-
 
 });
 

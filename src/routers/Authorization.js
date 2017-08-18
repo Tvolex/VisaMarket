@@ -40,10 +40,11 @@ const Authorization = router.post('/', async (req, res) => {
             console.log(req.sessionID);
 
             res.status(200)
+                .cookie('sessionID', req.sessionID , { httpOnly: true})
                 .send(true)
         }
         else {
-            res.status(401)
+            res.status(404)
                 .send(false)
         }
 

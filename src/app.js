@@ -7,6 +7,7 @@ const config = require('./config');
 const Authorization = require('./routers/Authorization');
 const exit = require ('./routers/exit');
 const login = require ('./routers/login');
+const publish = require ('./routers/PublishItem');
 const history = require('connect-history-api-fallback');
 const connect = require('connect');
 const getItems = require ('./routers/getItems');
@@ -37,7 +38,7 @@ app.get('/', (req, res) => {
 app.use('/Authorization', Authorization);
 app.use('/login', login);
 app.use('/exit', exit);
-
+app.use('/publish', publish);
 app.use('/getCountriesByVisaType', getCountriesByVisaType);
 app.use('/getItems', getItems);
 

@@ -43,11 +43,6 @@
         <v-toolbar style="background-color: rgba(0,0,0,0.6)" class="white--text">
             <v-toolbar-side-icon @click.stop="sideNav = !sideNav"></v-toolbar-side-icon>
             <router-link tag="v-btn" class="btn btn--flat white--text" to="/">{{title}}</router-link>
-            <v-toolbar-side-icon
-                    v-on:click="sideNav = !sideNav"
-                    class="hidden-sm-and-up ">
-
-            </v-toolbar-side-icon>
             <v-spacer></v-spacer>
             <v-toolbar-items dark class="hidden-xs-only">
 
@@ -72,7 +67,7 @@
 </template>
 <script>
     import 'vuetify/dist/vuetify.min.css'
-    import sideNavDashboard from './SideNavDashboard.vue'
+    import sideNavDashboard from './admin/SideNavDashboard.vue'
     import axios from 'axios';
     export default {
         name: 'app',
