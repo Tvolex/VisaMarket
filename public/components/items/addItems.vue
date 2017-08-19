@@ -128,15 +128,25 @@
                     image: this.Image
                 };
 
-                const res = await axios.post('/publish', data);
+                try {
+                    const res = await axios.post('/publish', data);
 
-                const saved = res.data.ok;
+                    const saved = res.data.ok;
 
-                if (saved === 1)
-                    this.$toaster.success("Saved");
-                else if (saved === 0)
-                    this.$toaster.error("This country is already exist");
+                    if (saved === 1)
+                        this.$toaster.success("Saved");
 
+                } catch(e) {
+                    this.errorHandler(e);
+                }
+            },
+
+            errorHandler(error) {
+                if (error.response.status === 400)
+                    this.$toaster.warning("This country is already exist");
+                else {
+                    this.$toaster.error(error.response.status + ' : ' + error.response.statusText);
+                }
             }
         },
     }

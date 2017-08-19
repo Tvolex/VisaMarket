@@ -14,7 +14,7 @@
 
                         </v-card>
                     </v-flex>
-                    <v-flex   xs12 sm5 md6 offset-md1 lg5 xl5 v-for="item in showItem" tag="v-card" v-bind:key="item._id">
+                    <v-flex   xs12 sm5 md6 offset-md1 lg5 xl5 v-for="item in currentItem" tag="v-card" v-bind:key="item._id">
                         <v-card class="item-card" >
                             <v-card-media
                                     class="white--text"
@@ -23,21 +23,29 @@
                                 <v-container fill-height fluid>
                                     <v-layout fill-height>
                                         <v-flex xs12 align-end flexbox>
-                                            <span class="headline span-item-title">{{item.country}}</span>
+                                            <span class="headline span-item-title" v-model="country">{{item.country}}</span>
                                         </v-flex>
                                     </v-layout>
                                 </v-container>
                             </v-card-media>
                             <v-card-title>
                                 <div>
-                                    <span class="grey--text">${{item.price}}</span><br>
+                                    <v-text-field
+                                            name="input-2-3"
+                                            label="Price"
+                                            class="input-group--focused"
+                                            prepend-icon="attach_money"
+                                            v-bind:value="item.price"
+                                            v-model="price"
+                                            single-line
+                                    ></v-text-field>
                                     <span>{{item.description}}</span><br>
                                 </div>
                             </v-card-title>
                             <v-card-actions>
-                                <v-btn flat class="orange--text">Buy</v-btn>
+                                <v-btn v-if="change" flat class="orange--text">Save</v-btn>
                                 <v-spacer></v-spacer>
-                                <v-btn flat class="orange--text">Read more</v-btn>
+                                <v-btn flat class="orange--text">Edit description</v-btn>
                             </v-card-actions>
                         </v-card>
                     </v-flex>
@@ -57,7 +65,10 @@
         data() {
             return {
                 selected: null,
-                showItem: [],
+                currentItem: [],
+                change: false,
+                country: 'Edit country',
+                price: 'Edit price',
             }
         },
 
@@ -84,24 +95,48 @@
             },
 
             selectCountry(event) {
-                this.selected = event.currentTarget.id;
-
-                this.showSelected(this.items, this.selected, this.$forceUpdate());
-            },
-
-            showSelected(arr, id, cb) {
                 let i = 0;
+                const arr = this.items;
+                const id = event.currentTarget.id;
+
+                this.selected = id;
 
                 while (i < arr.length) {
-                    if (arr[i]._id === id)
-                        return this.showItem[0] = arr[i];
+
+                    if (arr[i]._id === id) {
+                        this.currentItem[0] = arr[i];
+                        this.country = arr[i].country;
+                        this.price = arr[i].price;
+                        this.$forceUpdate();
+                        return arr[i];
+                    }
+
                     i++;
                 }
 
-                this.showItem[0] = arr[0];
+                this.currentItem[0] = arr[0];
+                this.$forceUpdate();
             },
 
+
+
+
+
         },
+
+        watch: {
+            country(value) {
+                if (this.currentItem[0].country !== value) {
+                    this.change = true;
+                }
+            },
+
+            price(value) {
+                if (this.currentItem[0].price !== value) {
+                    this.change = true;
+                }
+            }
+        }
     }
 </script>
 
