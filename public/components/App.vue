@@ -38,12 +38,26 @@
                                 <div>
                                     <span class="grey--text">${{item.price}}</span><br>
                                     <span>{{item.description}}</span><br>
+
                                 </div>
                             </v-card-title>
                             <v-card-actions>
                                 <v-btn flat class="orange--text">Buy</v-btn>
                                 <v-spacer></v-spacer>
-                                <v-btn flat class="orange--text">Read more</v-btn>
+                                <v-dialog v-model="readMore">
+                                    <v-btn flat class="orange--text" slot="activator" v-on:click="setDescriptionForPopUp(item.description)">Read more</v-btn>
+                                    <v-card>
+                                        <v-card-title>
+                                            <span class="headline">Read more</span>
+                                        </v-card-title>
+                                        <v-card-text>
+                                            {{description}}
+                                        </v-card-text>
+                                        <v-card-actions>
+                                            <v-btn class="green--text darken-1" flat="flat" @click.native="readMore = false">Close</v-btn>
+                                        </v-card-actions>
+                                    </v-card>
+                                </v-dialog>
                             </v-card-actions>
                         </v-card>
                     </v-flex>
@@ -92,6 +106,8 @@
                 images: {
                     Paris: `https://images.unsplash.com/photo-1501977953290-80b1e3c3d316`,
                 },
+                readMore: false,
+                description: '',
                 offsetTop: 0,
                 windowSize: {
                     width: window.innerWidth ,
@@ -135,7 +151,12 @@
             },
             toDown: function () {
                 this.offsetTop = window.pageYOffset;
-            }
+            },
+
+            setDescriptionForPopUp(description) {
+                this.description = description;
+            },
+
         },
 
         watch: {

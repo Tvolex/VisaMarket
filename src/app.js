@@ -1,6 +1,7 @@
 const express = require ('express');
 const bodyParser = require ('body-parser');
 const session = require ('express-session');
+const favicon = require ('serve-favicon');
 const cookieParser = require ('cookie-parser');
 const path = require ('path');
 const config = require('./config');
@@ -31,6 +32,7 @@ app.set('views', path.join(__dirname, '../view'));
 app.set('view engine', 'html');
 app.engine('html', require('hbs').__express);
 app.use(express.static(path.join(__dirname, '../public')));
+app.use(favicon(path.join(__dirname, '../public','imgs','favicon.ico')));
 
 app.get('/', (req, res) => {
     res.render('index');
