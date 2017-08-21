@@ -23,29 +23,61 @@
                                 <v-container fill-height fluid>
                                     <v-layout fill-height>
                                         <v-flex xs12 align-end flexbox>
-                                            <span class="headline span-item-title" v-model="country">{{item.country}}</span>
+
+
                                         </v-flex>
                                     </v-layout>
                                 </v-container>
                             </v-card-media>
                             <v-card-title>
                                 <div>
+                                    <span>{{item.country}}</span>
                                     <v-text-field
-                                            name="input-2-3"
+                                            name="price"
                                             label="Price"
                                             class="input-group--focused"
                                             prepend-icon="attach_money"
+                                            type="number"
                                             v-bind:value="item.price"
                                             v-model="price"
                                             single-line
                                     ></v-text-field>
-                                    <span>{{item.description}}</span><br>
+
+                                    <span>{{description || item.description}}</span><br>
                                 </div>
                             </v-card-title>
                             <v-card-actions>
-                                <v-btn v-if="change" flat class="orange--text">Save</v-btn>
+                                <v-btn v-if="change" flat class="orange--text" v-on:click="updateItem">Save</v-btn>
                                 <v-spacer></v-spacer>
-                                <v-btn flat class="orange--text">Edit description</v-btn>
+                                <v-flex sx10 sm10 offset-sm1 md8 offset-md2>
+                                    <v-dialog v-model="modal">
+                                        <v-btn flat class="orange--text" slot="activator">Edit description</v-btn>
+
+                                        <v-card >
+                                            <v-card-title>
+                                                <span class="headline">Edit description</span>
+                                            </v-card-title>
+                                            <v-card-text>
+                                                <v-text-field
+                                                        name="description"
+                                                        label="Description"
+                                                        class="input-group--focused edit-description"
+                                                        v-bind:value="item.description"
+                                                        v-model="description"
+                                                        textarea
+                                                        single-line
+                                                ></v-text-field>
+                                            </v-card-text>
+                                            <v-card-actions>
+                                                <v-spacer></v-spacer>
+                                                <v-btn class="blue--text darken-1" flat @click.native="closeModal(0)">Close</v-btn>
+                                                <v-btn class="blue--text darken-1" flat @click.native="closeModal(1)">Save</v-btn>
+                                            </v-card-actions>
+                                        </v-card>
+                                    </v-dialog>
+                                </v-flex>
+
+
                             </v-card-actions>
                         </v-card>
                     </v-flex>
@@ -64,11 +96,13 @@
 
         data() {
             return {
+                errors: [],
+                price: null,
+                modal: false,
+                change: false,
                 selected: null,
                 currentItem: [],
-                change: false,
-                country: 'Edit country',
-                price: 'Edit price',
+                description: null,
             }
         },
 
@@ -76,65 +110,95 @@
             items() {
                 return this.$store.getters.items;
             },
-        },
 
-        mounted() {
-            this.getItems();
         },
 
         methods: {
-
-            findInArray() {
-
-            },
-
-            async getItems() {
-//                let res = await axios.get('/getItems');
-//
-//                this.items =  res.data;
-            },
 
             selectCountry(event) {
                 let i = 0;
                 const arr = this.items;
                 const id = event.currentTarget.id;
-
                 this.selected = id;
-
                 while (i < arr.length) {
-
                     if (arr[i]._id === id) {
                         this.currentItem[0] = arr[i];
-                        this.country = arr[i].country;
                         this.price = arr[i].price;
                         this.$forceUpdate();
                         return arr[i];
                     }
-
                     i++;
                 }
-
                 this.currentItem[0] = arr[0];
                 this.$forceUpdate();
             },
 
+            closeModal(status) {
+                this.modal = false;
+
+                if (status === 0)
+                    this.description = this.currentItem[0].description;
+
+            },
+
+            async updateItem() {
+                this.currentItem[0].price = this.price;
+                this.currentItem[0].description = this.description;
+
+                try {
+                    const res = await axios.post('/updateItem', this.currentItem[0]);
+
+                    const updated = res.data;
+
+                    if (updated.ok)
+                        this.notificator('success', "Updated");
+
+                } catch (e) {
+                    this.errorHandler(e);
+                }
 
 
+            },
 
+            notificator: function (type, message) {
+                switch (type) {
+                    case 'info': this.$toaster.info(message);
+                        break;
+                    case 'success': this.$toaster.success(message);
+                        break;
+                    case 'warning': this.$toaster.warning(message);
+                        break;
+                    case 'error': this.$toaster.error(message);
+                        break;
+                }
 
+            },
+
+            errorHandler: function (error) {
+                let errorNotification = error.response.status + ' : ' + error.response.statusText;
+
+                this.errors.push(error);
+                this.notificator('error', errorNotification);
+
+                console.log(error);
+            },
         },
 
         watch: {
-            country(value) {
-                if (this.currentItem[0].country !== value) {
+            description(value) {
+                if (this.currentItem[0].description !== value)
                     this.change = true;
-                }
-            },
+                else
+                    this.change = false;
 
+                this.$forceUpdate();
+            },
             price(value) {
-                if (this.currentItem[0].price !== value) {
+                if (this.currentItem[0].price !== value)
                     this.change = true;
-                }
+                else
+                    this.change = false;
+                this.$forceUpdate();
             }
         }
     }
@@ -149,6 +213,17 @@
         padding: 10px;
         margin-top: 10px;
 
+    }
+    .edit-description {
+        width: 100%;
+    }
+    .input-group--text-field.input-group--textarea:not(.input-group--full-width) textarea {
+        padding: 10px;
+    }
+
+    .dialog {
+        min-width: 70%;
+        width: 80%;
     }
 
     .item-enter-active, .item-leave-active {

@@ -37,7 +37,7 @@
                             <v-card-title>
                                 <div>
                                     <span class="grey--text">${{item.price}}</span><br>
-                                    <span>{{item.place}}</span><br>
+                                    <span>{{item.description}}</span><br>
                                 </div>
                             </v-card-title>
                             <v-card-actions>

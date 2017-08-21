@@ -8,6 +8,7 @@ const Authorization = require('./routers/Authorization');
 const exit = require ('./routers/exit');
 const login = require ('./routers/login');
 const publish = require ('./routers/PublishItem');
+const updateItem = require ('./routers/updateItem');
 const history = require('connect-history-api-fallback');
 const connect = require('connect');
 const getItems = require ('./routers/getItems');
@@ -39,6 +40,7 @@ app.use('/Authorization', Authorization);
 app.use('/login', login);
 app.use('/exit', exit);
 app.use('/publish', publish);
+app.use('/updateItem', updateItem);
 app.use('/getCountriesByVisaType', getCountriesByVisaType);
 app.use('/getItems', getItems);
 
