@@ -18,7 +18,7 @@
         </main>
         <main class="application application--dark cards">
             <v-container dark fluid>
-                <v-layout row wrap>
+                <v-layout row wrap main-items>
                     <v-flex xs12 sm6 md3 order-md4 order-sm2 v-for="item in items" tag="v-card" v-bind:key="item.id">
                         <v-card dark class=" item-card">
                             <v-card-media
@@ -243,5 +243,8 @@
 
     a {
         color: #42b983;
+    }
+    .main-items {
+        background-color: darkgrey;;
     }
 </style>

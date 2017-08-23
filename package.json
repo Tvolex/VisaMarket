@@ -9,7 +9,7 @@
     "staging": "cross-env NODE_ENV=staging node src/app.js ",
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules",
     "start": "node src/app.js",
-    "build:watch": "webpack --watch "
+    "build:watch": "webpack --watch --hot"
   },
   "dependencies": {
     "animate.css": "~3.5.2",
@@ -64,7 +64,9 @@
     "style-loader": "^0.18.2",
     "vue-loader": "^13.0.4",
     "vue-template-compiler": "^2.3.3",
-    "webpack": "^2.6.1"
+    "webpack": "^2.6.1",
+    "vue-hot-loader": "0.0.4",
+    "vue-hot-reload-api": "~2.1.0"
   },
   "engines": {
     "node": "8.1.4",

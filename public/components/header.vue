@@ -81,7 +81,7 @@
                     "English",
                     "Українська",
                 ],
-                sideNav: this.drawer,
+                sideNav: false,
                 title: 'Visa Market',
                 currentPath: window.location.pathname ,
                 path: '/',
@@ -91,7 +91,7 @@
 
         computed: {
             drawer() {
-                return this.$store.getters.sideNav;
+                return this.$store.getters.drawer;
             },
 
             login() {
@@ -159,6 +159,10 @@
 
             sideNav: function (drawer) {
                 this.setDrawer(drawer);
+            },
+
+            drawer: function (sideNav) {
+                this.sideNav = sideNav;
             }
 
 

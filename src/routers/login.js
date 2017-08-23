@@ -17,14 +17,14 @@ const login = router.post('/', async (req, res) => {
 
         console.log("login.js: connection to: " + DataBaseURL);
 
-        const admin = await collection.find({email: email, sessionID: sessionID}).limit(1).hasNext();
+        const admin = await collection.find({email: email, sessionID: sessionID}).limit(1).next();
 
         db.close();
 
         admin ? res.status(200)
-                .send(true) :
+                .json({login: true, email: admin.email}) :
             res.status(401)
-                .send(false);
+                .json({login: false});
 
     } catch (e) {
         console.log(e);

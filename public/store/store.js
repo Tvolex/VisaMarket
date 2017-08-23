@@ -6,6 +6,7 @@ Vue.use(Vuex);
 
 export const store = new Vuex.Store({
     state: {
+        admin: {email: null},
         login: false,
         drawer: false,
         items: [],
@@ -15,6 +16,10 @@ export const store = new Vuex.Store({
     },
 
     getters: {
+        admin(state) {
+            return state.admin;
+        },
+
         login(state) {
             return state.login;
         },
@@ -35,6 +40,10 @@ export const store = new Vuex.Store({
     },
 
     mutations: {
+        admin(state, {type, value}) {
+            state[type].email = value;
+        },
+
         login(state, {type, value}) {
             state[type] = value;
         },
@@ -58,8 +67,9 @@ export const store = new Vuex.Store({
         async login ({state, commit, dispatch}) {
             const res = await axios.post('/login');
 
-            const login = res.data;
+            const login = res.data.login;
 
+            commit('admin', {type: 'admin', value: res.data.email});
             commit('login', {type: 'login', value: login});
         },
 

@@ -44,11 +44,10 @@
         methods: {
             setPage: function (event) {
                 const id = event.currentTarget.id;
-
+                this.$store.commit('drawer', {type: 'drawer', value: false});
                 this.currentPage = parseInt(id);
-
                 console.log(id);
-            }
+            },
         },
 
         watch: {

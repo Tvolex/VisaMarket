@@ -31,7 +31,10 @@
                             </v-card-media>
                             <v-card-title>
                                 <div>
-                                    <span>{{item.country}}</span>
+                                    <v-subheader>
+                                        <h5>{{item.country}}</h5>
+                                    </v-subheader>
+
                                     <v-text-field
                                             name="price"
                                             label="Price"
@@ -42,17 +45,20 @@
                                             v-model="price"
                                             single-line
                                     ></v-text-field>
+                                    <v-subheader>
+                                        <h6>{{item.description}}</h6>
+                                    </v-subheader>
 
-                                    <span>{{description || item.description}}</span><br>
+
                                 </div>
                             </v-card-title>
                             <v-card-actions>
-                                <v-btn v-if="change" flat class="orange--text" v-on:click="updateItem">Save</v-btn>
-                                <v-spacer></v-spacer>
-                                <v-flex sx10 sm10 offset-sm1 md8 offset-md2>
+                                <v-flex xs12>
+                                    <v-btn v-if="change" flat class="orange--text" v-on:click="updateItem">Save</v-btn>
+                                </v-flex>
+                                <v-flex sx12 sm10 offset-sm1 md8 offset-md2>
                                     <v-dialog v-model="modal">
                                         <v-btn flat class="orange--text" slot="activator">Edit description</v-btn>
-
                                         <v-card >
                                             <v-card-title>
                                                 <span class="headline">Edit description</span>
