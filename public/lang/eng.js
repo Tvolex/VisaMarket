@@ -5,6 +5,6 @@ module.exports = {
     ChooseTerm: "Choose a term",
     next: "Next",
     back: "Back",
-    WorksVisa: "Working Visa",
+    WorksVisa: "Works Visa",
     TouristVisa: "Tourist Visa",
 }

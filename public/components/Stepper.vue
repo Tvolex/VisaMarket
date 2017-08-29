@@ -1,10 +1,10 @@
 <template>
     <div class="stepper grey darken-3">
-        <v-stepper v-model="e1" dark class="mt-3 grey darken-3">
+        <v-stepper v-model="step" dark class="mt-3 grey darken-3">
             <v-stepper-header>
-                <v-stepper-step step="1" :complete="e1 > 1">{{lang.ChooseVisaType}}</v-stepper-step>
+                <v-stepper-step step="1" :complete="step > 1">{{lang.ChooseVisaType}}</v-stepper-step>
                 <v-divider></v-divider>
-                <v-stepper-step step="2" :complete="e1 > 2">{{lang.ChooseCountry}}</v-stepper-step>
+                <v-stepper-step step="2" :complete="step > 2">{{lang.ChooseCountry}}</v-stepper-step>
                 <v-divider></v-divider>
                 <v-stepper-step step="3">{{lang.ChooseTerm}}</v-stepper-step>
             </v-stepper-header>
@@ -38,7 +38,7 @@
                     </template>
                 </v-card>
                 <v-card>
-                    <v-btn primary @click.native="e1 = 2">{{lang.next}}</v-btn>
+                    <v-btn primary @click.native="step = 2">{{lang.next}}</v-btn>
                     <v-btn flat dark>{{lang.back}}</v-btn>
                 </v-card>
 
@@ -55,11 +55,12 @@
                                         </v-flex>
                                         <v-flex xs6>
                                             <v-select
-                                                    v-bind:items='visaCoutries'
+                                                    v-bind:items="visaItems"
                                                     v-model="visaCountry"
                                                     label="Country"
                                                     dark
-                                                    item-value="text"
+                                                    item-text="country"
+                                                    item-value="country"
                                             ></v-select>
                                         </v-flex>
                                     </v-layout>
@@ -69,7 +70,7 @@
                         </v-card>
                     </template>
                 </v-card>
-                <v-btn primary @click.native="e1 = 3">{{lang.next}}</v-btn>
+                <v-btn primary @click.native="step = 3">{{lang.next}}</v-btn>
                 <v-btn flat dark>{{lang.back}}</v-btn>
             </v-stepper-content>
             <v-stepper-content step="3">
@@ -101,7 +102,7 @@
                         </v-card>
                     </template>
                 </v-card>
-                <v-btn primary @click.native="e1 = 1">{{lang.next}}</v-btn>
+                <v-btn primary @click.native="step = 1">{{lang.next}}</v-btn>
                 <v-btn flat dark>{{lang.back}}</v-btn>
             </v-stepper-content>
         </v-stepper>
@@ -121,19 +122,27 @@
 
         data() {
             return {
-                e1: 0,
                 lang: LanguageENG,
-                visaType: null,
-                visaTypeId: 0,
-                visaCountry: null,
-                visaCoutries: [{text: "text"}],
+                step: 0,
+                visaItems: [],
                 visaTerm: null,
-
+                visaType: null,
+                visaTypeId: null,
+                visaCountry: null,
+                visaCountries: null,
             }
         },
 
         mounted: function () {
             this.importTextByLanguage();
+        },
+
+        computed: {
+            items() {
+                this.$nextTick();
+                this.$forceUpdate();
+                return this.$store.getters.items;
+            }
         },
 
         methods: {
@@ -149,27 +158,29 @@
                         break;
                 }
             },
-
-            getCountryByVisaType: async function () {
-                let data = {visaTypeId: this.visaTypeId};
-                let countries = await axios.get('/getCountriesByVisaType', {params: data});
-                this.visaCoutries = countries.data;
-            }
         },
         watch: {
-
-            visaType: function (val) {
-                console.log(val);
-                switch (val) {
-                    case "Туристична віза" || "Tourist Visa": this.visaTypeId = 0; break;
-                    case "Робоча віза" || "Working Visa": this.visaTypeId = 1; break;
+            step(step) {
+                const arr = this.items;
+                if (step === 2) {
+                    this.visaItems = [];
+                    for (let i = 0; i < arr.length; i++) {
+                        if (arr[i].visaTypeId === this.visaTypeId)
+                            this.visaItems.push(arr[i]);
+                    }
                 }
             },
 
-            e1: function (step) {
-                if(step === 2) this.getCountryByVisaType();
+            visaType(val) {
+                switch (val) {
+                    case "Works Visa" || "Робоча віза":
+                        this.visaTypeId = 1;
+                        break;
+                    case "Tourist Visa" || "Туристична віза":
+                        this.visaTypeId = 0;
+                        break;
+                }
             }
-
         }
     }
 </script>

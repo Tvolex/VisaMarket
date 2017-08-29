@@ -9,7 +9,7 @@
     "staging": "cross-env NODE_ENV=staging node src/app.js ",
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules",
     "start": "node src/app.js",
-    "build:watch": "webpack --watch --hot"
+    "build:watch": "webpack --watch"
   },
   "dependencies": {
     "animate.css": "~3.5.2",

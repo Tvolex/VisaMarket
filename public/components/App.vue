@@ -8,12 +8,8 @@
         <main class="hidden-xs-and-up main-stepper application--dark">
             <v-container dark >
                 <stepper></stepper>
-
             </v-container>
 
-            <v-btn class="button-arrow_down" >
-                <v-icon v-on:click.stop="toDown">arrow_downward</v-icon>
-            </v-btn>
 
         </main>
         <main class="application application--dark cards">
@@ -245,6 +241,6 @@
         color: #42b983;
     }
     .main-items {
-        background-color: darkgrey;;
+        background-color: #303030;;
     }
 </style>
