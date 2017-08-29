@@ -81,18 +81,21 @@
                                 <v-container fluid>
                                     <v-layout row wrap>
                                         <v-flex xs6>
-                                            <v-subheader class="grey--text text--lighten-1" v-bind:v-text="lang.ChooseVisaType">{{lang.ChooseVisaType}}</v-subheader>
+                                            <v-subheader class="grey--text text--lighten-1" v-bind:v-text="lang.ChooseTerm">{{lang.ChooseTerm}}</v-subheader>
                                         </v-flex>
                                         <v-flex xs6>
                                             <v-select
                                                     v-bind:items="[
-                                                        {text: lang.WorksVisa},
-                                                        {text: lang.TouristVisa}
+                                                        {text: '30 days', value: 30},
+                                                        {text: '90 days', value: 90},
+                                                        {text: '180 days', value: 180},
+                                                        {text: '360 days', value: 360},
                                                     ]"
-                                                    v-model="visaType"
-                                                    label="type"
+                                                    v-model="visaTerm"
+                                                    label="term"
                                                     dark
-                                                    item-value="text"
+                                                    item-text="text"
+                                                    item-value="value"
                                             ></v-select>
                                         </v-flex>
                                     </v-layout>
