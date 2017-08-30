@@ -39,7 +39,7 @@
                 </v-card>
                 <v-card>
                     <v-btn primary @click.native="step = 2">{{lang.next}}</v-btn>
-                    <v-btn flat dark>{{lang.back}}</v-btn>
+                    <v-btn flat dark disabled>{{lang.back}}</v-btn>
                 </v-card>
 
             </v-stepper-content>
@@ -71,7 +71,7 @@
                     </template>
                 </v-card>
                 <v-btn primary @click.native="step = 3">{{lang.next}}</v-btn>
-                <v-btn flat dark>{{lang.back}}</v-btn>
+                <v-btn flat dark @click.native="step = 1">{{lang.back}}</v-btn>
             </v-stepper-content>
             <v-stepper-content step="3">
                 <v-card class="grey lighten-1 z-depth-1 mb-5">
@@ -105,10 +105,32 @@
                         </v-card>
                     </template>
                 </v-card>
-                <v-btn primary @click.native="step = 1">{{lang.next}}</v-btn>
-                <v-btn flat dark>{{lang.back}}</v-btn>
+                <v-btn primary @click.native.stop="renderFilteredItems">{{lang.next}}</v-btn>
+                <v-btn flat dark @click.native="step = 2">{{lang.back}}</v-btn>
             </v-stepper-content>
         </v-stepper>
+        <v-dialog v-model="dialog" lazy absolute width="50%">
+
+            <v-card>
+                <v-card-text class="card-shadow-bottom">
+                    <div class="headline text-sm-center">{{showItem.country}}</div>
+                </v-card-text>
+                <v-card-media style="padding: 10px">
+                    <img v-bind:src="showItem.image" alt="">
+                </v-card-media>
+                <v-card-text class="text-sm-left card-shadow-top">
+                    price: ${{showItem.price}}
+                </v-card-text>
+                <v-card-text class="text-sm-left">
+                    {{showItem.description}}
+                </v-card-text>
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn class="green--text darken-1" flat="flat" @click.native="dialog = false">Buy</v-btn>
+                    <v-btn class="green--text darken-1" flat="flat" @click.native="dialog = false">Close</v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
     </div>
 </template>
 
@@ -127,6 +149,8 @@
             return {
                 lang: LanguageENG,
                 step: 0,
+                dialog: false,
+                showItem: [],
                 visaItems: [],
                 visaTerm: null,
                 visaType: null,
@@ -149,8 +173,22 @@
         },
 
         methods: {
+            async renderFilteredItems() {
+                const data = {
+                    visaTypeId: this.visaTypeId,
+                    visaCountry: this.visaCountry,
+                    visaTerm: this.visaTerm
+                }
 
-            importTextByLanguage: function () {
+                const res = await axios.get('/getItemsByFilter', {params: data});
+
+                const items = res.data;
+
+                this.showItem = items[0];
+                this.dialog = true;
+            },
+
+            importTextByLanguage() {
                 let l = this.$cookies.get('Language');
                 switch (l) {
                     case 'English':
@@ -176,10 +214,10 @@
 
             visaType(val) {
                 switch (val) {
-                    case "Works Visa" || "Робоча віза":
+                    case this.lang.WorksVisa:
                         this.visaTypeId = 1;
                         break;
-                    case "Tourist Visa" || "Туристична віза":
+                    case this.lang.TouristVisa:
                         this.visaTypeId = 0;
                         break;
                 }
@@ -189,6 +227,14 @@
 </script>
 
 <style>
+    .card-shadow-top {
+        -webkit-box-shadow: 0px -4px 3px rgba(50, 50, 50, 0.75);
+        -moz-box-shadow:    0px -4px 3px rgba(50, 50, 50, 0.75);
+        box-shadow:         0px -4px 3px rgba(50, 50, 50, 0.75);
+    }
+    .card-shadow-bottom {
+        box-shadow: 0 4px 3px rgba(50, 50, 50, 0.75);
+    }
     .stepper {
         margin-top: 200px;
     }

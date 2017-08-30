@@ -14,6 +14,7 @@ const history = require('connect-history-api-fallback');
 const connect = require('connect');
 const getItems = require ('./routers/getItems');
 const getCountriesByVisaType = require('./routers/getCountriesByVisaType');
+const getItemsByFilter = require('./routers/getItemsByFilter');
 const app = express();
 
 
@@ -43,6 +44,7 @@ app.use('/login', login);
 app.use('/exit', exit);
 app.use('/publish', publish);
 app.use('/updateItem', updateItem);
+app.use('/getItemsByFilter', getItemsByFilter);
 app.use('/getCountriesByVisaType', getCountriesByVisaType);
 app.use('/getItems', getItems);
 

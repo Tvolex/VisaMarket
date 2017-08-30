@@ -12,6 +12,9 @@
 
 
         </main>
+        <main class="application--dark ">
+            <v-btn @click.native="refreshItems">Refresh</v-btn>
+        </main>
         <main class="application application--dark cards">
             <v-container dark fluid>
                 <v-layout row wrap main-items>
@@ -57,8 +60,16 @@
                             </v-card-actions>
                         </v-card>
                     </v-flex>
+                    <v-flex xs12 sm6 md6 lg6 v-if="noItems" >
+                        <v-card>
+                            <h5>No data available</h5>
+                        </v-card>
+                    </v-flex>
                 </v-layout>
             </v-container>
+        </main>
+        <main class="no-data-available" >
+
         </main>
 
         <v-footer></v-footer>
@@ -103,6 +114,7 @@
                     Paris: `https://images.unsplash.com/photo-1501977953290-80b1e3c3d316`,
                 },
                 readMore: false,
+                noItems: false,
                 description: '',
                 offsetTop: 0,
                 windowSize: {
@@ -116,7 +128,11 @@
 
         computed: {
             items() {
-                return this.$store.getters.items;
+                const items = this.$store.getters.items;
+
+                this.noItems = items.length < 1;
+
+                return items;
             }
         },
 
@@ -126,12 +142,16 @@
 
         methods: {
 
-            updateSize: function () {
+            updateSize() {
                 this.windowSize.width = window.innerWidth;
                 this.windowSize.height = window.innerHeight;
             },
 
-            getImageSource: function (name) {
+            refreshItems() {
+                this.$store.dispatch({type: "items"});
+            },
+
+            getImageSource(name) {
                 let imgOptions = `?auto=compress?w=${this.windowSize.width}&h=${this.windowSize.height}`;
                 let images = [this.images.Paris];
 
@@ -145,7 +165,7 @@
                         return images[1] + imgOptions;
                 }
             },
-            toDown: function () {
+            toDown() {
                 this.offsetTop = window.pageYOffset;
             },
 
@@ -156,12 +176,6 @@
         },
 
         watch: {
-            width: function (value) {
-
-            },
-            height: function (value) {
-
-            }
         }
 
     }

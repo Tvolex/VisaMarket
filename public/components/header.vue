@@ -44,6 +44,10 @@
             <v-toolbar-side-icon @click.stop="sideNav = !sideNav"></v-toolbar-side-icon>
             <router-link tag="v-btn" class="btn btn--flat white--text" to="/">{{title}}</router-link>
             <v-spacer></v-spacer>
+            <span>
+                < Сайт в розробці />
+            </span>
+            <v-spacer></v-spacer>
             <v-toolbar-items dark class="hidden-xs-only">
 
                 <v-flex v-if="path==='/signin'" xs6 class="selectLanguage">
