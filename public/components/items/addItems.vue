@@ -15,6 +15,7 @@
                 visaType: "Works Visa",
                 visaTypeId: null,
                 Price: null,
+                Term: null,
                 Description: null,
                 Image: null,
             }
@@ -31,6 +32,7 @@
                     city: this.City,
                     visaTypeId: this.visaTypeId,
                     price: this.Price,
+                    term: this.Term,
                     description: this.Description,
                     image: this.Image
                 };
@@ -123,6 +125,17 @@
                                                     name="Price"
                                                     label="Price"
                                                     v-model="Price"
+                                                    type="number"
+                                                    required>
+                                            </v-text-field>
+                                        </v-flex>
+                                    </v-layout>
+                                    <v-layout>
+                                        <v-flex xs12>
+                                            <v-text-field
+                                                    name="Term"
+                                                    label="Term"
+                                                    v-model="Term"
                                                     type="number"
                                                     required>
                                             </v-text-field>
