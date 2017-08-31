@@ -18,7 +18,20 @@
         <main class="application application--dark cards" id="cards">
             <v-container dark fluid>
                 <v-layout row wrap main-items>
-                    <v-flex xs12 sm6 md3 order-md4 order-sm2 v-for="item in items" tag="v-card" v-bind:key="item.id">
+                    <v-dialog v-model="readMore">
+                        <v-card>
+                            <v-card-title>
+                                <span class="headline">Read more</span>
+                            </v-card-title>
+                            <v-card-text>
+                                {{description}}
+                            </v-card-text>
+                            <v-card-actions>
+                                <v-btn class="green--text darken-1" flat @click.native="readMore = false">Close</v-btn>
+                            </v-card-actions>
+                        </v-card>
+                    </v-dialog>
+                    <v-flex xs12 sm6 order-sm3 md3 order-md4   v-for="item in items" tag="v-card" v-bind:key="item._id">
                         <v-card dark class=" item-card">
                             <v-card-media
                                     class="white--text"
@@ -43,20 +56,7 @@
                             <v-card-actions>
                                 <v-btn flat class="orange--text">Buy</v-btn>
                                 <v-spacer></v-spacer>
-                                <v-dialog v-model="readMore">
-                                    <v-btn flat class="orange--text" slot="activator" v-on:click="setDescriptionForPopUp(item.description)">Read more</v-btn>
-                                    <v-card>
-                                        <v-card-title>
-                                            <span class="headline">Read more</span>
-                                        </v-card-title>
-                                        <v-card-text>
-                                            {{description}}
-                                        </v-card-text>
-                                        <v-card-actions>
-                                            <v-btn class="green--text darken-1" flat="flat" @click.native="readMore = false">Close</v-btn>
-                                        </v-card-actions>
-                                    </v-card>
-                                </v-dialog>
+                                <v-btn flat class="orange--text"  v-bind:id="item._id" @click.native.stop="showReadMore($event); ">Read more</v-btn>
                             </v-card-actions>
                         </v-card>
                     </v-flex>
@@ -80,7 +80,7 @@
 
 <script>
     import animate from 'animate.css'
-    import 'vue-fullpage/vue-fullpage.css'
+    //import 'vue-fullpage/vue-fullpage.css'
     import header from './header.vue';
     import footer from './footer.vue'
     import stepper from './Stepper.vue'
@@ -102,29 +102,9 @@
         },
         data: () => {
             return {
-//                items: [
-//                    {title: "Dubai", description: "OAE, Dubai", price: 8500 ,image: "https://images.unsplash.com/photo-1461664054097-e319867377a0?dpr=1&auto=format&fit=crop&w=720&h=640&q=80&cs=tinysrgb&crop="},
-//                    {title: "Paris", description: "France, Paris", price: 6350 ,image: "https://images.unsplash.com/photo-1492016025243-5c580de436d8?dpr=1&auto=format&fit=crop&w=720&h=640&q=80&cs=tinysrgb&crop="},
-//                    {title: "New York", description: "USA, New York", price: 5500 ,image: "https://images.unsplash.com/photo-1492666673288-3c4b4576ad9a?dpr=1&auto=format&fit=crop&w=720&h=640&q=80&cs=tinysrgb&crop="},
-//                    {title: "Las Setas De Sevilla", description: "Spain, Sevilla", price: 5500 ,image: "https://images.unsplash.com/photo-1482236195433-7e0de3abde07?dpr=1&auto=format&fit=crop&w=720&h=640&q=80&cs=tinysrgb&crop="},
-//                    {title: "Metropolitan City of Rome ", description: "Italy, Rome", price: 4590 ,image: "https://images.unsplash.com/photo-1483967401479-d276121525b1?dpr=1&auto=format&fit=crop&w=720&h=640&q=80&cs=tinysrgb&crop="},
-//                    {title: "Barcelona", description: "Spain, Barcelona", price: 5940 ,image: "https://images.unsplash.com/photo-1477039256673-13f6fc80dde7?dpr=1&auto=format&fit=crop&w=720&h=640&q=80&cs=tinysrgb&crop="},
-//                    {title: "Venice", description: "Italy, Venice", price: 4960 ,image: "https://images.unsplash.com/photo-1480550476554-00112fe313c3?dpr=1&auto=format&fit=crop&w=720&h=640&q=80&cs=tinysrgb&crop="},
-//                    {title: "Capri", description: "Italy, Capri", price: 7460 ,image: "https://images.unsplash.com/photo-1447723432521-2fabf0a7d064?dpr=1&auto=format&fit=crop&w=720&h=640&q=80&cs=tinysrgb&crop="},
-//                ],
-                images: {
-                    Paris: `https://images.unsplash.com/photo-1501977953290-80b1e3c3d316`,
-                },
                 readMore: false,
                 noItems: false,
                 description: '',
-                offsetTop: 0,
-                windowSize: {
-                    width: window.innerWidth ,
-                    height: window.innerHeight + 100,
-                },
-
-
             }
         },
 
@@ -144,36 +124,27 @@
 
         methods: {
 
-            updateSize() {
-                this.windowSize.width = window.innerWidth;
-                this.windowSize.height = window.innerHeight;
-            },
-
             refreshItems() {
                 this.$store.dispatch({type: "items"});
             },
 
-            getImageSource(name) {
-                let imgOptions = `?auto=compress?w=${this.windowSize.width}&h=${this.windowSize.height}`;
-                let images = [this.images.Paris];
+            findItemById(id) {
+                const arr = this.items;
 
-                switch (name) {
-                    default:
-                        return images[0] + imgOptions;
-                        break;
-                    case "Paris" :
-                        return images[0] + imgOptions;
-                    case  "NewYork" :
-                        return images[1] + imgOptions;
+                for (let i = 0; i < arr.length; i++ ) {
+                    if (arr[i]._id === id) {
+                        return arr[i].description;
+                    }
                 }
             },
-            toDown() {
-                this.offsetTop = window.pageYOffset;
-            },
 
-            setDescriptionForPopUp(description) {
-                this.description = description;
-            },
+            showReadMore(el) {
+                const id = el.currentTarget.id;
+
+                console.log(id)
+                this.description = this.findItemById(id);
+                this.readMore = true;
+            }
 
         },
 
@@ -215,6 +186,10 @@
 
         //background-image: url("https://images.unsplash.com/photo-1497197246330-b9cafd652212?auto=compress?w=1920&h=1080");
 
+    }
+
+    .cards {
+        padding: 10px;
     }
 
     .container {

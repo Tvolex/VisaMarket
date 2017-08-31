@@ -215,6 +215,11 @@
     .card-shadow-bottom {
         box-shadow: 0 4px 3px rgba(50, 50, 50, 0.75);
     }
+
+    .dialog {
+
+    }
+
     .stepper {
         margin-top: 200px;
     }
