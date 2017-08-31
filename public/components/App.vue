@@ -12,10 +12,10 @@
 
 
         </main>
-        <main class="application--dark ">
+        <main class="dark application--dark">
             <v-btn @click.native="refreshItems">Refresh</v-btn>
         </main>
-        <main class="application application--dark cards">
+        <main class="application application--dark cards" id="cards">
             <v-container dark fluid>
                 <v-layout row wrap main-items>
                     <v-flex xs12 sm6 md3 order-md4 order-sm2 v-for="item in items" tag="v-card" v-bind:key="item.id">
@@ -60,9 +60,11 @@
                             </v-card-actions>
                         </v-card>
                     </v-flex>
-                    <v-flex xs12 sm6 md6 lg6 v-if="noItems" >
+                    <v-flex xs12 sm6 offset-sm3 md6 offset-md3 lg6 offset-lg3 v-if="noItems">
                         <v-card>
-                            <h5>No data available</h5>
+                            <v-card-text class="text-lg-center">
+                                No data available
+                            </v-card-text>
                         </v-card>
                     </v-flex>
                 </v-layout>

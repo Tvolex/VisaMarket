@@ -7,4 +7,5 @@ module.exports = {
     back: "Назад",
     WorksVisa: "Робоча віза",
     TouristVisa: "Туристична віза",
+    show: "Показати",
 }

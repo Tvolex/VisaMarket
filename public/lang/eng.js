@@ -7,4 +7,5 @@ module.exports = {
     back: "Back",
     WorksVisa: "Works Visa",
     TouristVisa: "Tourist Visa",
+    show: "Show",
 }

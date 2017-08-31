@@ -12,9 +12,7 @@ const getItemsByFilter = router.get('/', async (req, res) => {
 
     const reqVisaTypeId = parseInt(req.query.visaTypeId);
     const reqVisaCountry = req.query.visaCountry.toString();
-    const reqVisaTerm = parseInt(req.query.visaTerm);
 
-    console.log(reqVisaTypeId, reqVisaCountry, reqVisaTerm);
     try {
         const db = await MongoClient.connect(DataBaseURL);
 
@@ -26,7 +24,6 @@ const getItemsByFilter = router.get('/', async (req, res) => {
             {
                 visaTypeId: reqVisaTypeId,
                 country: reqVisaCountry,
-                term: reqVisaTerm
             })
             .sort({$natural: -1}).toArray();
 

@@ -6,7 +6,7 @@
                 <v-divider></v-divider>
                 <v-stepper-step step="2" :complete="step > 2">{{lang.ChooseCountry}}</v-stepper-step>
                 <v-divider></v-divider>
-                <v-stepper-step step="3">{{lang.ChooseTerm}}</v-stepper-step>
+
             </v-stepper-header>
             <v-stepper-content  step="1">
                 <v-card class="grey lighten-1 z-depth-1 mb-5" >
@@ -70,63 +70,22 @@
                         </v-card>
                     </template>
                 </v-card>
-                <v-btn primary @click.native="step = 3">{{lang.next}}</v-btn>
-                <v-btn flat dark @click.native="step = 1">{{lang.back}}</v-btn>
-            </v-stepper-content>
-            <v-stepper-content step="3">
-                <v-card class="grey lighten-1 z-depth-1 mb-5">
-                    <template>
-                        <v-card class="secondary elevation-0" fill-height>
-                            <v-card-text>
-                                <v-container fluid>
-                                    <v-layout row wrap>
-                                        <v-flex xs6>
-                                            <v-subheader class="grey--text text--lighten-1" v-bind:v-text="lang.ChooseTerm">{{lang.ChooseTerm}}</v-subheader>
-                                        </v-flex>
-                                        <v-flex xs6>
-                                            <v-select
-                                                    v-bind:items="[
-                                                        {text: '30 days', value: 30},
-                                                        {text: '90 days', value: 90},
-                                                        {text: '180 days', value: 180},
-                                                        {text: '360 days', value: 360},
-                                                    ]"
-                                                    v-model="visaTerm"
-                                                    label="term"
-                                                    dark
-                                                    item-text="text"
-                                                    item-value="value"
-                                            ></v-select>
-                                        </v-flex>
-                                    </v-layout>
-                                </v-container>
-                            </v-card-text>
-                            <v-card-text class="text-xs-left">{{lang.WhatIsVisa}}</v-card-text>
-                        </v-card>
-                    </template>
-                </v-card>
-                <v-btn primary @click.native.stop="renderFilteredItems">{{lang.next}}</v-btn>
-                <v-btn flat dark @click.native="step = 2">{{lang.back}}</v-btn>
+                <v-btn primary @click.native="renderFilteredItems">{{lang.show}}</v-btn>
+                <v-btn flat dark @click.native="back">{{lang.back}}</v-btn>
             </v-stepper-content>
         </v-stepper>
         <v-dialog v-model="dialog" lazy absolute width="50%">
 
             <v-card>
                 <v-card-text class="card-shadow-bottom">
-                    <div class="headline text-sm-center">{{showItem.country}}</div>
+                    <div class="headline text-sm-center">No data</div>
                 </v-card-text>
-                <v-card-media style="padding: 10px">
-                    <img v-bind:src="showItem.image" alt="">
-                </v-card-media>
-                <v-card-text class="text-sm-left card-shadow-top">
-                    price: ${{showItem.price}}
-                </v-card-text>
+
                 <v-card-text class="text-sm-left">
-                    {{showItem.description}}
+                    No data available
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn class="green--text darken-1" flat="flat" @click.native="dialog = false">Buy</v-btn>
                     <v-btn class="green--text darken-1" flat="flat" @click.native="dialog = false">Close</v-btn>
                 </v-card-actions>
             </v-card>
@@ -152,6 +111,7 @@
                 dialog: false,
                 showItem: [],
                 visaItems: [],
+                visaTerms: [],
                 visaTerm: null,
                 visaType: null,
                 visaTypeId: null,
@@ -169,11 +129,17 @@
                 this.$nextTick();
                 this.$forceUpdate();
                 return this.$store.getters.items;
-            }
+            },
+
+
         },
 
         methods: {
             async renderFilteredItems() {
+                const scrollingOptions = {
+                    y: true
+                }
+
                 const data = {
                     visaTypeId: this.visaTypeId,
                     visaCountry: this.visaCountry,
@@ -184,9 +150,23 @@
 
                 const items = res.data;
 
-                this.showItem = items[0];
-                this.dialog = true;
+                if (items.length < 1)
+                    this.dialog = true
+                else {
+                    this.$store.commit("items", {type: "items", value: items});
+
+                    this.$scrollTo("#cards", 500, scrollingOptions);
+                }
+
+
+
             },
+
+            back() {
+                this.step = 1;
+                this.$store.dispatch({type: "items"});
+            },
+
 
             importTextByLanguage() {
                 let l = this.$cookies.get('Language');
@@ -201,7 +181,7 @@
             },
         },
         watch: {
-            step(step) {
+            step(step, oldStep) {
                 const arr = this.items;
                 if (step === 2) {
                     this.visaItems = [];

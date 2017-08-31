@@ -5,6 +5,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import notify from 'v-toaster'
 import Vuetify from 'vuetify'
+import scrollTo from 'vue-scrollto'
 import VueCookies from 'vue-cookies'
 import { store } from './store/store'
 import 'v-toaster/dist/v-toaster.css'
@@ -26,6 +27,7 @@ Vue.use(VueRouter);
 Vue.use(notify, {timeout: 5000});
 Vue.use(Vuetify);
 Vue.use(VueCookies);
+Vue.use(scrollTo);
 
 const router = new VueRouter({
     mode: 'history',
