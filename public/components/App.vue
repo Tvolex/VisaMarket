@@ -15,9 +15,9 @@
         <main class="dark application--dark">
             <v-btn @click.native="refreshItems">Refresh</v-btn>
         </main>
-        <main class="application application--dark cards" id="cards">
+        <main class="application application--dark" id="cards">
             <v-container dark fluid>
-                <v-layout row wrap main-items>
+                <v-layout row wrap main-items class="cards">
                     <v-dialog v-model="readMore">
                         <v-card>
                             <v-card-title>
@@ -46,12 +46,15 @@
                                     </v-layout>
                                 </v-container>
                             </v-card-media>
-                            <v-card-title>
-                                <div>
-                                    <span class="grey--text">${{item.price}}</span><br>
-                                    <span>{{item.description}}</span><br>
-
-                                </div>
+                            <v-card-title class="white--text">
+                                Term: {{item.term}}
+                            </v-card-title>
+                            <v-card-title class="white--text" prepend-icon="attach_money">
+                                <v-icon>attach_money</v-icon>
+                                {{item.price}}
+                            </v-card-title>
+                            <v-card-title class="white--text">
+                                {{item.description}}
                             </v-card-title>
                             <v-card-actions>
                                 <v-btn flat class="orange--text">Buy</v-btn>
@@ -102,9 +105,13 @@
         },
         data: () => {
             return {
-                readMore: false,
+                term: null,
+                price: null,
+                country: null,
                 noItems: false,
-                description: '',
+                readMore: false,
+                description: null,
+
             }
         },
 
@@ -120,6 +127,8 @@
 
         mounted: function () {
             this.$store.dispatch('items');
+
+            this.$store.dispatch('visited');
         },
 
         methods: {
@@ -133,7 +142,7 @@
 
                 for (let i = 0; i < arr.length; i++ ) {
                     if (arr[i]._id === id) {
-                        return arr[i].description;
+                        return arr[i];
                     }
                 }
             },
@@ -141,8 +150,14 @@
             showReadMore(el) {
                 const id = el.currentTarget.id;
 
+                const item  = this.findItemById(id);
+
                 console.log(id)
-                this.description = this.findItemById(id);
+
+                this.country = item.country;
+                this.price = item.price;
+                this.term = item.term;
+                this.description = item.description;
                 this.readMore = true;
             }
 
@@ -190,8 +205,12 @@
 
     .cards {
         padding: 10px;
+
     }
 
+    .application, .application>main>.container {
+
+    }
     .container {
         padding: 0;
         //margin-top: -65px;

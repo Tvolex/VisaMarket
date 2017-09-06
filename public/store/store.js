@@ -6,12 +6,14 @@ Vue.use(Vuex);
 
 export const store = new Vuex.Store({
     state: {
-        admin: {email: null},
+        page: 0,
+        items: [],
+        lang: null,
+        visiting: 0,
         login: false,
         drawer: false,
-        items: [],
-        page: 0,
         countries: [],
+        admin: {email: null},
 
     },
 
@@ -36,7 +38,13 @@ export const store = new Vuex.Store({
             return state.page;
         },
 
+        visiting(state) {
+            return state.visiting;
+        },
 
+        lang(state) {
+            return state.lang;
+        },
     },
 
     mutations: {
@@ -60,11 +68,14 @@ export const store = new Vuex.Store({
             state[type] = value;
         },
 
+        visiting(state, {type, value}) {
+            state[type] = value;
+        },
 
     },
 
     actions: {
-        async login ({state, commit, dispatch}) {
+        async login ({commit}) {
             const res = await axios.post('/login');
 
             const login = res.data.login;
@@ -80,6 +91,14 @@ export const store = new Vuex.Store({
 
             commit('items', {type: 'items', value: items});
         },
+
+        async visited ({state, commit}) {
+            const res = await axios.post('/visit', 1);
+
+            const visiting = res.data;
+
+            commit('visiting', {type: 'visiting', value: visiting});
+        }
     },
 
 

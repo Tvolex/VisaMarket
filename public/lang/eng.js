@@ -8,4 +8,5 @@ module.exports = {
     WorksVisa: "Works Visa",
     TouristVisa: "Tourist Visa",
     show: "Show",
+    Term: "Term",
 }

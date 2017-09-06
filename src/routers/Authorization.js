@@ -2,6 +2,7 @@ const config = require ('../config');
 const mongodb = require ('mongodb');
 const express = require ('express');
 const md5 = require ('md5');
+const getIP = require('ipware')().get_ip;
 const ObjectId = require ('objectid');
 const DataBaseURL = config.DBurl;
 const router = express.Router();
@@ -22,13 +23,18 @@ const Authorization = router.post('/', async (req, res) => {
 
         console.log("Authorization.js: connection to: " + DataBaseURL);
 
+        const ip = getIP(req);
+
         const admin = await collection.findOneAndUpdate(
             {
                 email: email,
                 password: HashedPassword
             },
             {
-                $set: {sessionID: sessionID}
+                $set: {
+                    sessionID: sessionID,
+                    ip: ip
+                }
             });
 
 

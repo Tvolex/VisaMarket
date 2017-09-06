@@ -9,6 +9,7 @@ const MongoClient = mongodb.MongoClient;
 const publish = router.post('/', async (req, res) => {
 
     const item = {
+        term: req.body.term,
         city : req.body.city,
         price : req.body.price,
         image : req.body.image,
