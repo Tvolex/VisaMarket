@@ -14,7 +14,7 @@
 
                         </v-card>
                     </v-flex>
-                    <v-flex   xs12 sm5 md6 offset-md1 lg5 xl5 v-for="item in currentItem" tag="v-card" v-bind:key="item._id">
+                    <v-flex v-if="selected"   xs12 sm5 md6 offset-md1 lg5 xl5 v-for="item in currentItem" tag="v-card" v-bind:key="item._id">
                         <v-card class="item-card" >
                             <v-card-media
                                     class="white--text"
@@ -53,10 +53,10 @@
                                 </div>
                             </v-card-title>
                             <v-card-actions>
-                                <v-flex xs12>
+                                <v-flex xs6 sm4>
                                     <v-btn v-if="change" flat class="orange--text" v-on:click="updateItem">Save</v-btn>
                                 </v-flex>
-                                <v-flex sx12 sm10 offset-sm1 md8 offset-md2>
+                                <v-flex sx6 sm4 offset-sm1 md8 offset-md2>
                                     <v-dialog v-model="modal">
                                         <v-btn flat class="orange--text" slot="activator">Edit description</v-btn>
                                         <v-card >
@@ -81,6 +81,10 @@
                                             </v-card-actions>
                                         </v-card>
                                     </v-dialog>
+
+                                </v-flex>
+                                <v-flex xs6 sm4>
+                                    <v-btn error class="Red--text" @click.native="deleteItem()">Delete</v-btn>
                                 </v-flex>
 
 
@@ -136,6 +140,22 @@
                     i++;
                 }
                 this.currentItem[0] = arr[0];
+                this.$forceUpdate();
+            },
+
+            async deleteItem(id) {
+                const res = await axios.post('/deleteItem', {itemID: this.selected});
+
+                const deleted = res.data.deleted;
+
+                deleted ?
+                    this.$toaster.info("Deleted") :
+                    this.$toaster.error("Something wrong");
+
+                this.$store.dispatch({type: 'items'});
+
+                this.selected = null;
+
                 this.$forceUpdate();
             },
 

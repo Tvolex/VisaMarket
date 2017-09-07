@@ -1,24 +1,24 @@
 <template>
     <v-list dense>
-        <v-list-tile>
+        <v-list-tile class="menu-side">
             <v-list-tile-action>
                 <v-icon class="grey--text text--darken-1" >settings</v-icon>
             </v-list-tile-action>
             <v-list-tile-title class="grey--text text--darken-1" id="0" @click="setPage">Dashboard</v-list-tile-title>
         </v-list-tile>
-        <v-list-tile>
-            <v-list-tile-action>
+        <v-list-tile class="menu-side">
+            <v-list-tile-action >
                 <v-icon class="grey--text text--darken-1">edit</v-icon>
             </v-list-tile-action>
             <v-list-tile-title class="grey--text text--darken-1" id="1" @click="setPage">Edit items</v-list-tile-title>
         </v-list-tile>
-        <v-list-tile>
+        <v-list-tile class="menu-side">
             <v-list-tile-action>
                 <v-icon class="grey--text text--darken-1">add</v-icon>
             </v-list-tile-action>
             <v-list-tile-title class="grey--text text--darken-1" id="2" @click="setPage">Add new card</v-list-tile-title>
         </v-list-tile>
-        <v-list-tile>
+        <v-list-tile class="menu-side">
             <v-list-tile-action>
                 <v-icon class="grey--text text--darken-1">person</v-icon>
             </v-list-tile-action>
@@ -57,4 +57,9 @@
         }
     }
 </script>
+<style>
+    .menu-side {
+        cursor: pointer;
+    }
+</style>
 

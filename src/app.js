@@ -13,6 +13,7 @@ const updateItem = require ('./routers/updateItem');
 const history = require('connect-history-api-fallback');
 const connect = require('connect');
 const visit = require('./routers/visit');
+const deleteItem = require('./routers/deleteItem');
 const getItems = require ('./routers/getItems');
 const getCountriesByVisaType = require('./routers/getCountriesByVisaType');
 const getItemsByFilter = require('./routers/getItemsByFilter');
@@ -49,6 +50,7 @@ app.use('/visit', visit);
 app.use('/getItemsByFilter', getItemsByFilter);
 app.use('/getCountriesByVisaType', getCountriesByVisaType);
 app.use('/getItems', getItems);
+app.use('/deleteItem', deleteItem);
 
 // Error handler
 app.use((req, res, next) => {

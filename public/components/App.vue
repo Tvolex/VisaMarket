@@ -31,8 +31,8 @@
                             </v-card-actions>
                         </v-card>
                     </v-dialog>
-                    <v-flex xs12 sm6 order-sm3 md3 order-md4   v-for="item in items" tag="v-card" v-bind:key="item._id">
-                        <v-card dark class=" item-card">
+                    <v-flex xs12 sm6 order-sm3 md3 order-md4 class=" item-card"   v-for="item in items" tag="v-card" v-bind:key="item._id">
+                        <v-card dark >
                             <v-card-media
                                     class="white--text"
                                     height="200px"
@@ -86,7 +86,8 @@
     import footer from './footer.vue'
     import stepper from './Stepper.vue'
     import resize from "vue-resize-directive"
-    import VCardMedia from "vuetify/src/components/cards/VCardMedia";
+    //import VCardMedia from "vuetify/src/components/cards/VCardMedia";
+    import VCardMedia from "vuetify/src/components/VCard/VCardMedia";
     import icon from "vue-icon";
 
     export default {
@@ -95,7 +96,7 @@
             icon,
         },
         components: {
-            VCardMedia,
+             VCardMedia,
             "my-header": header,
             "my-footer": footer,
             "stepper": stepper,
@@ -210,8 +211,8 @@
 
     }
 
-    .cards {
-        padding: 10px;
+    .item-card {
+        padding: 3px;
 
     }
 

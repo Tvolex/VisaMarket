@@ -21,12 +21,19 @@
             }
         },
 
+
         computed: {
 
         },
 
         methods: {
+            clear() {
+                this.$refs.newItemForm.reset();
+
+            },
+
             PublishCard: async function () {
+
                 const data = {
                     country: this.Country,
                     city: this.City,
@@ -79,7 +86,7 @@
                     <v-card-text>
                         <v-container  >
                             <transition tag="div" name="transWelcome" mode="out-in">
-                                <form  transition="scale-transition" key="form" >
+                                <form  transition="scale-transition" ref="newItemForm" key="form" >
                                     <v-layout>
                                         <v-flex xs12>
                                             <h4>Publish new item card</h4>
@@ -92,6 +99,7 @@
                                                     label="Country"
                                                     v-model="Country"
                                                     type="text"
+
                                                     required>
                                             </v-text-field>
                                         </v-flex>
@@ -103,6 +111,7 @@
                                                     label="City"
                                                     v-model="City"
                                                     type="text"
+
                                                     required>
                                             </v-text-field>
                                         </v-flex>
@@ -115,6 +124,7 @@
                                                     v-model="visaType"
                                                     label="Select visa type"
                                                     single-line
+
                                                     bottom
                                             ></v-select>
                                         </v-flex>
@@ -126,6 +136,7 @@
                                                     label="Price"
                                                     v-model="Price"
                                                     type="number"
+
                                                     required>
                                             </v-text-field>
                                         </v-flex>
@@ -137,6 +148,7 @@
                                                     label="Term"
                                                     v-model="Term"
                                                     type="number"
+
                                                     required>
                                             </v-text-field>
                                         </v-flex>
@@ -148,6 +160,7 @@
                                                     label="Description"
                                                     v-model="Description"
                                                     type="text"
+
                                                     required>
                                             </v-text-field>
                                         </v-flex>
@@ -159,6 +172,7 @@
                                                     label="Image"
                                                     v-model="Image"
                                                     type="text"
+
                                                     required>
                                             </v-text-field>
                                         </v-flex>
@@ -169,8 +183,11 @@
                                         </v-flex>
                                     </v-layout>
                                     <v-layout>
-                                        <v-flex xs12>
-                                            <v-btn flat v-on:click.native="PublishCard">Publish item card</v-btn>
+                                        <v-flex xs6>
+                                            <v-btn primary v-on:click.native="PublishCard">Publish item card</v-btn>
+                                        </v-flex>
+                                        <v-flex xs6>
+                                            <v-btn flat v-on:click.native="clear">Clear</v-btn>
                                         </v-flex>
                                     </v-layout>
                                 </form>

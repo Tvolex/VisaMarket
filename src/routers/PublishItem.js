@@ -16,6 +16,7 @@ const publish = router.post('/', async (req, res) => {
         country: req.body.country,
         visaTypeId : req.body.visaTypeId,
         description : req.body.description,
+        createdAt: new Date(),
     };
 
     try {
