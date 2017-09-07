@@ -48,13 +48,11 @@
                             </v-card-media>
                             <v-card-title class="white--text">
                                 Term: {{item.term}}
-                            </v-card-title>
-                            <v-card-title class="white--text" prepend-icon="attach_money">
-                                <v-icon>attach_money</v-icon>
-                                {{item.price}}
+                                <v-spacer></v-spacer>
+                                ${{item.price}}
                             </v-card-title>
                             <v-card-title class="white--text">
-                                {{item.description}}
+                                {{item.description | limitDescription}}
                             </v-card-title>
                             <v-card-actions>
                                 <v-btn flat class="orange--text">Buy</v-btn>
@@ -129,6 +127,15 @@
             this.$store.dispatch('items');
 
             this.$store.dispatch('visited');
+        },
+        filters: {
+            limitDescription(value) {
+                if (value.length > 100) {
+                    let newValue = value.slice(0, 30) + ". . .";
+                    return newValue.toString();
+                }
+                return value.toString();
+            }
         },
 
         methods: {

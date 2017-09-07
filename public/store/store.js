@@ -93,7 +93,7 @@ export const store = new Vuex.Store({
         },
 
         async visited ({state, commit}) {
-            const res = await axios.post('/visit', 1);
+            const res = await axios.post('/visit');
 
             const visiting = res.data;
 

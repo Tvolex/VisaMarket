@@ -36,9 +36,9 @@ async function getVisiting() {
 
         const collection = db.collection('visiting');
 
-        console.log("visit.js: connection to: " + DataBaseURL);
+        console.log("visit.js: connection to: " + DataBaseURL + " /visiting");
 
-        const visit = await collection.find({name: "visited"}).limit(1);
+        const visit = await collection.find({name: "visited"}).limit(1).toArray();
 
         db.close();
 
@@ -61,13 +61,14 @@ const visit = router.post('/', async (req, res) => {
 
         const ip = getIP(req);
 
-        const admin = await collection.find({ip: ip}).limit(1).next();
+        const admin = await collection.find({ip: ip.clientIp}).limit(1).hasNext();
+
+        const visiting = await getVisiting();
 
         db.close();
 
-        admin ?
-            res.status(200).json(await getVisiting) :
-            res.status(400).json(await getVisiting)
+        res.status(200).send(visiting);
+        
     } catch (e) {
         console.log(e);
 

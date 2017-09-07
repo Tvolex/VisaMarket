@@ -78,7 +78,7 @@
                 <v-card>
                     <v-card-text>
                         <v-container  >
-                            <transition appear tag="div" name="transWelcome" mode="out-in">
+                            <transition tag="div" name="transWelcome" mode="out-in">
                                 <form  transition="scale-transition" key="form" >
                                     <v-layout>
                                         <v-flex xs12>
@@ -189,10 +189,8 @@
     [data-tooltip] {
         display:inline-block;
         position:relative;
-        /* определяем вид курсора если это не ссылка */
         cursor: pointer;
     }
-    /*  по умолчанию скрываем содержимое подсказки */
     [data-tooltip]:before,
     [data-tooltip]:after {
         visibility: hidden;
@@ -202,27 +200,24 @@
         pointer-events: none;
     }
 
-    /* формируем тело подсказки */
     [data-tooltip]:before {
-        background: #006104; /* фон для старых браузеров */
+        background: #006104;
         background: hsla(110,100%,17%,.9);
         bottom: 100%;
         margin-bottom: 6px;
         color: #f6f6f6;
-        content: attr(data-tooltip);/* Часть кода, определяющая содержимое всплывающей подсказки */
+        content: attr(data-tooltip);
         font-size: 14px;
-        width: 320px; /* устанавливаем необходимую фиксированную ширину, слова будут переноситься */
+        width: 320px;
         left: 0;
         padding: 7px 10px;
-        position: absolute;/* обязательно позиционирум абсолютно */
-        text-shadow: 0 1px 1px hsla(0,0%,0%,1);/* тень для текста */
-        /* по желанию - скругляем углы тела подсказки */
+        position: absolute;
+        text-shadow: 0 1px 1px hsla(0,0%,0%,1);
         -webkit-border-radius: 5px;
         -moz-border-radius: 5px;
         -o-border-radius: 5px;
         border-radius: 5px;
     }
-    /* формируем указатель подсказки */
     [data-tooltip]:after {
         border-top: 6px solid #006104;
         border-top: 6px solid hsla(110,100%,17%,.9);
@@ -235,14 +230,15 @@
         left: 25px;
         position: absolute;
     }
-    /* Показываем подсказку с указателем при наведении */
     [data-tooltip]:hover:before,
     [data-tooltip]:hover:after {
         visibility: visible;
         -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
         filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=100);
         opacity: 1;
-        transition: all 0.4s ease-in-out; /* добавляем плавности перехода */
+        transition: all 0.4s ease-in-out;
     }
-
+    .application, .application>main>.container {
+        min-height: 130vh;
+    }
 </style>

@@ -33,7 +33,7 @@ const Authorization = router.post('/', async (req, res) => {
             {
                 $set: {
                     sessionID: sessionID,
-                    ip: ip
+                    ip: ip.clientIp
                 }
             });
 
