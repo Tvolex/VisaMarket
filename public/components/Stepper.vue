@@ -94,10 +94,10 @@
 </template>
 
 <script>
-    import LanguageENG from "../lang/eng";
-    import LanguageUA from "../lang/ua";
-    import LanguageCZ from "../lang/cz";
-    import LanguagePL from "../lang/pl";
+//    import LanguageENG from "../lang/eng";
+//    import LanguageUA from "../lang/ua";
+//    import LanguageCZ from "../lang/cz";
+//    import LanguagePL from "../lang/pl";
     import axios from 'axios';
     //import LanguageChooser from './LanguageChooser.vue';
 
@@ -106,7 +106,7 @@
 
         data() {
             return {
-                lang: LanguageENG,
+                //lang: LanguageENG,
                 step: 0,
                 dialog: false,
                 showItem: [],
@@ -121,7 +121,7 @@
         },
 
         mounted: function () {
-            this.importTextByLanguage();
+            //this.importTextByLanguage();
         },
 
         computed: {
@@ -131,6 +131,9 @@
                 return this.$store.getters.items;
             },
 
+            lang() {
+                return this.$store.getters.language;
+            },
 
         },
 
@@ -168,17 +171,17 @@
             },
 
 
-            importTextByLanguage() {
-                let l = this.$cookies.get('Language');
-                switch (l) {
-                    case 'English':
-                        this.lang = LanguageENG;
-                        break;
-                    case 'Українська':
-                        this.lang = LanguageUA;
-                        break;
-                }
-            },
+//            importTextByLanguage() {
+//                let l = this.$cookies.get('Language');
+//                switch (l) {
+//                    case 'English':
+//                        this.lang = LanguageENG;
+//                        break;
+//                    case 'Українська':
+//                        this.lang = LanguageUA;
+//                        break;
+//                }
+//            },
         },
         watch: {
             step(step, oldStep) {

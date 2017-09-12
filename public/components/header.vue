@@ -158,7 +158,7 @@
             lang: function (val) {
                 console.log(val);
                 this.$cookies.set('Language', val);
-                this.$router.go(this.$router.currentRoute)
+                this.$store.dispatch({type: 'language'});
             },
 
             sideNav: function (drawer) {

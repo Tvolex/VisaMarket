@@ -21,13 +21,13 @@
                     <v-dialog v-model="readMore">
                         <v-card>
                             <v-card-title>
-                                <span class="headline">Read more</span>
+                                <span class="headline">{{lang.ReadMore}}</span>
                             </v-card-title>
                             <v-card-text>
                                 {{description}}
                             </v-card-text>
                             <v-card-actions>
-                                <v-btn class="green--text darken-1" flat @click.native="readMore = false">Close</v-btn>
+                                <v-btn class="green--text darken-1" flat @click.native="readMore = false">{{lang.close}}</v-btn>
                             </v-card-actions>
                         </v-card>
                     </v-dialog>
@@ -40,24 +40,24 @@
                             >
                                 <v-container fill-height fluid>
                                     <v-layout fill-height>
-                                        <v-flex xs12 align-end flexbox>
-                                            <span class="headline span-item-title">{{item.country}}</span>
+                                        <v-flex xs12 align-center flexbox>
+                                            <span class="headline">{{item.country}}</span>
                                         </v-flex>
                                     </v-layout>
                                 </v-container>
                             </v-card-media>
                             <v-card-title class="white--text">
-                                Term: {{item.term}}
+                                {{lang.Term}}: {{item.term}}
                                 <v-spacer></v-spacer>
-                                ${{item.price}}
+                                {{lang.Price}}: ${{item.price}}
                             </v-card-title>
                             <v-card-title class="white--text">
                                 {{item.description | limitDescription}}
                             </v-card-title>
                             <v-card-actions>
-                                <v-btn flat class="orange--text">Buy</v-btn>
+                                <v-btn flat class="orange--text">{{lang.Buy}}</v-btn>
                                 <v-spacer></v-spacer>
-                                <v-btn flat class="orange--text"  v-bind:id="item._id" @click.native.stop="showReadMore($event); ">Read more</v-btn>
+                                <v-btn flat class="orange--text"  v-bind:id="item._id" @click.native.stop="showReadMore($event); ">{{lang.ReadMore}}</v-btn>
                             </v-card-actions>
                         </v-card>
                     </v-flex>
@@ -121,6 +121,10 @@
                 this.noItems = items.length < 1;
 
                 return items;
+            },
+
+            lang() {
+                return this.$store.getters.language;
             }
         },
 
@@ -183,6 +187,7 @@
     }
     .span-item-title {
         padding-left: 10px;
+        margin-top: 100%;
     }
     .main-stepper {
         margin-top: 8vh;
